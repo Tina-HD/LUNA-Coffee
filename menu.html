@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>LUNA Coffee — Menu</title>
+
+
+    <!-- =========================
+         GOOGLE FONTS
+    ========================== -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap"
+          rel="stylesheet">
+
+
+    <style>
+
+        /* =========================
+           GENERAL
+        ========================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+
+            background-color: #F7F3ED;
+
+            color: #25221F;
+
+            font-family: 'Inter', sans-serif;
+
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin-top: 0;
+
+            font-family: 'Playfair Display', serif;
+
+            overflow-wrap: break-word;
+        }
+
+        a {
+            color: inherit;
+
+            text-decoration: none;
+        }
+
+
+        /* =========================
+           SCROLL REVEAL EFFECT
+        ========================== */
+
+        .reveal {
+
+            opacity: 0;
+
+            transform: translateY(35px);
+
+            transition:
+                opacity 0.9s ease,
+                transform 0.9s ease;
+
+            will-change:
+                opacity,
+                transform;
+        }
+
+        .reveal.active {
+
+            opacity: 1;
+
+            transform: translateY(0);
+        }
+
+
+        /* =========================
+           HEADER
+        ========================== */
+
+        .header {
+
+            height: 82px;
+
+            padding: 0 7%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            background-color: #F7F3ED;
+
+            border-bottom:
+                1px solid
+                rgba(112, 92, 70, 0.08);
+
+            position: relative;
+
+            z-index: 10;
+        }
+
+
+        .logo {
+
+            font-family: 'Playfair Display', serif;
+
+            font-size: 25px;
+
+            font-weight: 600;
+
+            color: #2D2722;
+
+            letter-spacing: -0.3px;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================
+           NAVIGATION
+        ========================== */
+
+        .navigation {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 32px;
+        }
+
+
+        .navigation a {
+
+            position: relative;
+
+            color: #514438;
+
+            font-size: 14px;
+
+            transition:
+                color 0.25s ease;
+
+            white-space: nowrap;
+        }
+
+
+        .navigation a::after {
+
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+
+            bottom: -7px;
+
+            width: 0;
+
+            height: 1px;
+
+            background-color: #8B6F47;
+
+            transition:
+                width 0.25s ease;
+        }
+
+
+        .navigation a:hover {
+
+            color: #8B6F47;
+        }
+
+
+        .navigation a:hover::after {
+
+            width: 100%;
+        }
+
+
+        /* =========================
+           ACTIVE NAVIGATION
+        ========================== */
+
+        .navigation a.active {
+
+            color: #8B6F47;
+        }
+
+
+        .navigation a.active::after {
+
+            width: 100%;
+        }
+
+
+        /* =========================
+           ADMIN LOGIN ICON
+        ========================== */
+
+        .admin-login {
+
+            width: 36px;
+
+            height: 36px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin-left: 2px;
+
+            color: #514438;
+
+            border: 1px solid
+                rgba(112, 92, 70, 0.14);
+
+            border-radius: 50%;
+
+            transition:
+                color 0.25s ease,
+                border-color 0.25s ease,
+                background-color 0.25s ease,
+                transform 0.25s ease;
+        }
+
+
+        .admin-login::after {
+
+            display: none;
+        }
+
+
+        .admin-login svg {
+
+            width: 17px;
+
+            height: 17px;
+
+            fill: none;
+
+            stroke: currentColor;
+
+            stroke-width: 1.8;
+
+            stroke-linecap: round;
+
+            stroke-linejoin: round;
+        }
+
+
+        .admin-login:hover {
+
+            color: #8B6F47;
+
+            border-color: #8B6F47;
+
+            background-color:
+                rgba(139, 111, 71, 0.05);
+
+            transform: translateY(-1px);
+        }
+
+
+        /* =========================
+           MENU HERO
+        ========================== */
+
+        .menu-hero {
+
+            padding: 120px 7% 80px;
+
+            text-align: center;
+        }
+
+
+        .section-label {
+
+            margin: 0 0 20px;
+
+            color: #8B6F47;
+
+            font-size: 12px;
+
+            letter-spacing: 2px;
+
+            font-weight: 600;
+        }
+
+
+        .menu-hero h1 {
+
+            margin: 0 0 20px;
+
+            color: #2D2722;
+
+            font-size:
+                clamp(55px, 8vw, 90px);
+
+            font-weight: 500;
+
+            line-height: 1;
+
+            letter-spacing: -1px;
+        }
+
+
+        .menu-hero p:last-child {
+
+            margin: 0;
+
+            color: #6B655E;
+
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           FULL MENU SECTIONS
+        ========================== */
+
+        .full-menu-section {
+
+            max-width: 1000px;
+
+            margin: 0 auto;
+
+            padding: 70px 7%;
+
+            border-top:
+                1px solid #DDD6CC;
+        }
+
+
+        .full-menu-section h2 {
+
+            margin-bottom: 35px;
+
+            color: #2D2722;
+
+            font-size: 38px;
+
+            font-weight: 500;
+        }
+
+
+        .full-menu-grid {
+
+            display: grid;
+
+            gap: 0;
+        }
+
+
+        /* =========================
+           MENU ITEMS
+        ========================== */
+
+        .full-menu-grid > a {
+
+            display: block;
+
+            color: inherit;
+
+            text-decoration: none;
+        }
+
+
+        .full-menu-item {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 30px;
+
+            padding: 25px 0;
+
+            border-bottom:
+                1px solid #DDD6CC;
+
+            transition:
+                transform 0.25s ease;
+        }
+
+
+        .full-menu-grid > a:hover .full-menu-item {
+
+            transform:
+                translateX(5px);
+        }
+
+
+        .full-menu-item h3 {
+
+            margin-bottom: 8px;
+
+            color: #2D2722;
+
+            font-size: 22px;
+
+            font-weight: 600;
+        }
+
+
+        .full-menu-item p {
+
+            margin: 0;
+
+            color: #716A62;
+
+            line-height: 1.5;
+        }
+
+
+        .full-menu-item > span {
+
+            color: #8B6F47;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================
+           PRODUCT REVEAL
+        ========================== */
+
+        .product-reveal {
+
+            opacity: 0;
+
+            transform:
+                translateY(22px);
+
+            transition:
+                opacity 0.65s ease,
+                transform 0.65s ease;
+        }
+
+
+        .product-reveal.active {
+
+            opacity: 1;
+
+            transform:
+                translateY(0);
+        }
+
+
+        /* =========================
+           MENU MESSAGE
+        ========================== */
+
+        .menu-message {
+
+            max-width: 700px;
+
+            margin: 30px auto 100px;
+
+            padding: 48px 50px;
+
+            background-color: #FFFDFC;
+
+            border:
+                1px solid
+                rgba(112, 92, 70, 0.10);
+
+            box-shadow:
+                0 18px 45px
+                rgba(45, 39, 34, 0.05);
+
+            text-align: left;
+        }
+
+
+        .menu-message-label {
+
+            margin: 0 0 18px;
+
+            color: #8B6F47;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            letter-spacing: 2px;
+        }
+
+
+        .menu-message p:last-child {
+
+            max-width: 570px;
+
+            margin: 0;
+
+            color: #625B53;
+
+            font-size: 17px;
+
+            line-height: 1.9;
+        }
+
+
+        /* =========================
+           CONTACT
+        ========================== */
+
+        .menu-contact {
+
+            padding: 100px 7%;
+
+            background-color: #40372F;
+
+            color: #FFFFFF;
+
+            text-align: center;
+        }
+
+
+        .menu-contact h2 {
+
+            margin-bottom: 25px;
+
+            font-size:
+                clamp(42px, 6vw, 50px);
+
+            font-weight: 500;
+
+            line-height: 1.1;
+        }
+
+
+        .menu-contact a {
+
+            color: #B99A70;
+
+            font-weight: 500;
+
+            transition:
+                color 0.25s ease;
+        }
+
+
+        .menu-contact a:hover {
+
+            color: #E0BC83;
+
+            text-decoration: underline;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================== */
+
+        .footer {
+
+            padding: 32px 7%;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            background-color: #F7F3ED;
+
+            border-top:
+                1px solid #DDD5C9;
+
+            color: #756D64;
+
+            font-size: 13px;
+        }
+
+
+        .footer p {
+
+            margin: 0;
+        }
+
+
+        /* =========================
+           RESPONSIVE — TABLET
+        ========================== */
+
+        @media (max-width: 1000px) {
+
+            .full-menu-section {
+
+                padding:
+                    65px 7%;
+            }
+
+        }
+
+
+        @media (max-width: 900px) {
+
+            .header {
+
+                padding:
+                    0 6%;
+            }
+
+
+            .navigation {
+
+                gap: 32px;
+            }
+
+
+            .menu-hero {
+
+                padding:
+                    100px 6% 70px;
+            }
+
+
+            .full-menu-section {
+
+                padding:
+                    60px 6%;
+            }
+
+
+            .menu-message {
+
+                margin:
+                    30px 6% 85px;
+
+                padding:
+                    42px 45px;
+            }
+
+
+            .menu-contact {
+
+                padding:
+                    85px 6%;
+            }
+
+
+            .footer {
+
+                padding:
+                    30px 6%;
+            }
+
+        }
+
+
+        /* =========================
+           RESPONSIVE — MOBILE
+        ========================== */
+
+        @media (max-width: 700px) {
+
+            .header {
+
+                height: auto;
+
+                padding:
+                    22px 6%;
+
+                flex-direction: column;
+
+                gap: 20px;
+            }
+
+
+            .navigation {
+
+                width: 100%;
+
+                justify-content: center;
+
+                gap:
+                    clamp(14px, 4vw, 20px);
+
+                flex-wrap: wrap;
+            }
+
+
+            .menu-hero {
+
+                padding:
+                    85px 5% 60px;
+            }
+
+
+            .menu-hero h1 {
+
+                font-size:
+                    clamp(48px, 12vw, 70px);
+
+                letter-spacing: -1.5px;
+            }
+
+
+            .full-menu-section {
+
+                padding:
+                    55px 7%;
+            }
+
+
+            .full-menu-item {
+
+                gap: 22px;
+
+                padding:
+                    23px 0;
+            }
+
+
+            .menu-message {
+
+                margin:
+                    25px 7% 75px;
+
+                padding:
+                    38px 35px;
+            }
+
+
+            .menu-contact {
+
+                padding:
+                    75px 7%;
+            }
+
+
+            .footer {
+
+                padding:
+                    28px 6%;
+
+                flex-direction: column;
+
+                gap: 10px;
+            }
+
+        }
+
+
+        /* =========================
+           RESPONSIVE — SMALL MOBILE
+        ========================== */
+
+        @media (max-width: 550px) {
+
+            .header {
+
+                padding:
+                    20px 5%;
+            }
+
+
+            .logo {
+
+                font-size: 24px;
+            }
+
+
+            .navigation {
+
+                width: 100%;
+
+                justify-content: center;
+
+                gap:
+                    14px 18px;
+
+                flex-wrap: wrap;
+            }
+
+
+            .navigation a {
+
+                font-size: 13px;
+            }
+
+
+            .admin-login {
+
+                width: 36px;
+
+                height: 36px;
+
+                margin-left: 2px;
+            }
+
+
+            .menu-hero {
+
+                padding:
+                    75px 5% 55px;
+            }
+
+
+            .menu-hero h1 {
+
+                font-size:
+                    clamp(42px, 12vw, 62px);
+
+                letter-spacing: -1px;
+            }
+
+
+            .section-label {
+
+                font-size: 11px;
+
+                letter-spacing: 1.7px;
+            }
+
+
+            .full-menu-section {
+
+                padding:
+                    48px 6%;
+            }
+
+
+            .full-menu-section h2 {
+
+                font-size: 34px;
+
+                margin-bottom: 24px;
+            }
+
+
+            .full-menu-item {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+                gap: 10px;
+
+                padding:
+                    22px 0;
+            }
+
+
+            .full-menu-item h3 {
+
+                font-size: 21px;
+
+                margin-bottom: 7px;
+            }
+
+
+            .full-menu-item p {
+
+                font-size: 14px;
+
+                line-height: 1.6;
+            }
+
+
+            .full-menu-item > span {
+
+                font-size: 15px;
+            }
+
+
+            .menu-message {
+
+                margin:
+                    20px 5% 65px;
+
+                padding:
+                    32px 25px;
+            }
+
+
+            .menu-message p:last-child {
+
+                font-size: 15px;
+
+                line-height: 1.75;
+            }
+
+
+            .menu-contact {
+
+                padding:
+                    65px 6%;
+            }
+
+        }
+
+
+        /* =========================
+           VERY SMALL SCREENS
+        ========================== */
+
+        @media (max-width: 360px) {
+
+            .navigation {
+
+                gap: 12px;
+            }
+
+
+            .navigation a {
+
+                font-size: 12px;
+            }
+
+
+            .admin-login {
+
+                width: 36px;
+
+                height: 36px;
+
+                margin-left: 2px;
+            }
+
+
+            .menu-hero h1 {
+
+                font-size: 42px;
+
+                letter-spacing: -0.5px;
+            }
+
+
+            .full-menu-section {
+
+                padding-left: 5%;
+
+                padding-right: 5%;
+            }
+
+
+            .menu-message {
+
+                margin-left: 4%;
+
+                margin-right: 4%;
+
+                padding:
+                    28px 20px;
+            }
+
+        }
+
+
+        /* =========================
+           REDUCED MOTION
+        ========================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            html {
+
+                scroll-behavior: auto;
+            }
+
+
+            *,
+            *::before,
+            *::after {
+
+                animation-duration: 0.01ms !important;
+
+                animation-iteration-count: 1 !important;
+
+                transition-duration: 0.01ms !important;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <header class="header">
+
+        <a class="logo"
+           href="index.html">
+
+            LUNA Coffee
+
+        </a>
+
+
+        <nav class="navigation">
+
+            <a href="index.html">
+
+                Home
+
+            </a>
+
+
+            <a href="about.html">
+
+                About
+
+            </a>
+
+
+            <a href="menu.html"
+               class="active">
+
+                Menu
+
+            </a>
+
+
+            <a href="contact.html">
+
+                Contact
+
+            </a>
+
+
+            <!-- =========================
+                 ADMIN LOGIN
+            ========================== -->
+
+            <a class="admin-login"
+               href="login.html"
+               aria-label="Staff Login"
+               title="Staff Login">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true">
+
+                    <circle
+                        cx="12"
+                        cy="8"
+                        r="3.5">
+
+                    </circle>
+
+                    <path
+                        d="M4.5 20c.8-3.5 3.4-5.5 7.5-5.5s6.7 2 7.5 5.5">
+
+                    </path>
+
+                </svg>
+
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main>
+
+
+        <!-- =========================
+             MENU HERO
+        ========================== -->
+
+        <section class="menu-hero reveal">
+
+            <p class="section-label">
+
+                LUNA COFFEE
+
+            </p>
+
+
+            <h1>
+
+                Our Menu
+
+            </h1>
+
+
+            <p>
+
+                Something good for every kind of day.
+
+            </p>
+
+        </section>
+
+
+        <!-- =========================
+             DYNAMIC MENU
+
+             Categories and products
+             are created by script.js
+             from Supabase
+        ========================== -->
+
+
+        <!-- =========================
+             MENU MESSAGE
+        ========================== -->
+
+        <section class="menu-message reveal">
+
+            <p class="menu-message-label">
+
+                MADE WITH CARE
+
+            </p>
+
+
+            <p>
+
+                From your first coffee of the morning
+                to a slow afternoon break, every item
+                on our menu is chosen to make your
+                moment at LUNA feel a little warmer,
+                slower, and more memorable.
+
+            </p>
+
+        </section>
+
+
+        <!-- =========================
+             CONTACT
+        ========================== -->
+
+        <section class="menu-contact reveal">
+
+            <h2>
+
+                Have a question<br>
+                about our menu?
+
+            </h2>
+
+
+            <a href="contact.html">
+
+                Contact us →
+
+            </a>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer class="footer">
+
+        <p>
+
+            © 2026 LUNA Coffee
+
+        </p>
+
+
+        <p>
+
+            Slow mornings. Good coffee.
+
+        </p>
+
+    </footer>
+
+
+    <!-- =========================
+         SUPABASE
+    ========================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <!-- =========================
+         MAIN SCRIPT
+    ========================== -->
+
+    <script src="script.js"></script>
+
+
+    <!-- =========================
+         SCROLL REVEAL SCRIPT
+    ========================== -->
+
+    <script>
+
+        const revealElements =
+            document.querySelectorAll(".reveal");
+
+
+        const revealObserver =
+
+            new IntersectionObserver(
+
+                function(entries) {
+
+                    entries.forEach(
+
+                        function(entry) {
+
+                            if (
+
+                                entry.isIntersecting
+
+                            ) {
+
+                                entry.target
+                                    .classList
+                                    .add("active");
+
+
+                                revealObserver.unobserve(
+                                    entry.target
+                                );
+
+                            }
+
+                        }
+
+                    );
+
+                },
+
+                {
+
+                    threshold: 0.12
+
+                }
+
+            );
+
+
+        revealElements.forEach(
+
+            function(element) {
+
+                revealObserver.observe(
+                    element
+                );
+
+            }
+
+        );
+
+
+        /* =========================
+           WATCH DYNAMIC MENU
+        ========================== */
+
+        const menuObserver =
+
+            new MutationObserver(
+
+                function(mutations) {
+
+                    mutations.forEach(
+
+                        function(mutation) {
+
+                            mutation.addedNodes.forEach(
+
+                                function(node) {
+
+                                    if (
+
+                                        node.nodeType === 1 &&
+
+                                        node.classList.contains(
+                                            "full-menu-section"
+                                        )
+
+                                    ) {
+
+                                        node.classList.add(
+                                            "reveal"
+                                        );
+
+
+                                        revealObserver.observe(
+                                            node
+                                        );
+
+
+                                        const products =
+
+                                            node.querySelectorAll(
+                                                ".full-menu-grid > a"
+                                            );
+
+
+                                        products.forEach(
+
+                                            function(product, index) {
+
+                                                product.classList.add(
+                                                    "product-reveal"
+                                                );
+
+
+                                                product.style.transitionDelay =
+
+                                                    `${index * 0.12}s`;
+
+
+                                                const productObserver =
+
+                                                    new IntersectionObserver(
+
+                                                        function(entries) {
+
+                                                            entries.forEach(
+
+                                                                function(entry) {
+
+                                                                    if (
+
+                                                                        entry.isIntersecting
+
+                                                                    ) {
+
+                                                                        entry.target
+                                                                            .classList
+                                                                            .add("active");
+
+
+                                                                        productObserver.unobserve(
+                                                                            entry.target
+                                                                        );
+
+                                                                    }
+
+                                                                }
+
+                                                            );
+
+                                                        },
+
+                                                        {
+
+                                                            threshold: 0.1
+
+                                                        }
+
+                                                    );
+
+
+                                                productObserver.observe(
+                                                    product
+                                                );
+
+                                            }
+
+                                        );
+
+                                    }
+
+                                }
+
+                            );
+
+                        }
+
+                    );
+
+                }
+
+            );
+
+
+        menuObserver.observe(
+
+            document.querySelector("main"),
+
+            {
+
+                childList: true
+
+            }
+
+        );
+
+    </script>
+
+
+</body>
+
+</html>

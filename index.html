@@ -1,0 +1,2029 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>LUNA Coffee</title>
+
+
+    <!-- =========================
+         GOOGLE FONTS
+    ========================== -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap"
+          rel="stylesheet">
+
+
+    <style>
+
+        /* =========================
+           GENERAL
+        ========================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+
+            background-color: #F7F3ED;
+
+            color: #25221F;
+
+            font-family: 'Inter', sans-serif;
+
+            overflow-x: hidden;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin-top: 0;
+
+            font-family: 'Playfair Display', serif;
+
+            overflow-wrap: break-word;
+        }
+
+        a {
+            color: inherit;
+
+            text-decoration: none;
+        }
+
+
+        /* =========================
+           SCROLL REVEAL EFFECT
+        ========================== */
+
+        .reveal {
+
+            opacity: 0;
+
+            transform: translateY(35px);
+
+            transition:
+                opacity 0.9s ease,
+                transform 0.9s ease;
+
+            will-change:
+                opacity,
+                transform;
+        }
+
+        .reveal.active {
+
+            opacity: 1;
+
+            transform: translateY(0);
+        }
+
+
+        /* =========================
+           HEADER
+        ========================== */
+
+        .header {
+
+            height: 82px;
+
+            padding: 0 7%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            background-color: #F7F3ED;
+
+            border-bottom:
+                1px solid
+                rgba(112, 92, 70, 0.08);
+
+            position: relative;
+
+            z-index: 10;
+        }
+
+        .logo {
+
+            font-family: 'Playfair Display', serif;
+
+            font-size: 25px;
+
+            font-weight: 600;
+
+            color: #2D2722;
+
+            letter-spacing: -0.3px;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================
+           NAVIGATION
+        ========================== */
+
+        .navigation {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 32px;
+        }
+
+        .navigation a {
+
+            position: relative;
+
+            color: #514438;
+
+            font-size: 14px;
+
+            transition:
+                color 0.25s ease;
+        }
+
+        .navigation a::after {
+
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+
+            bottom: -7px;
+
+            width: 0;
+
+            height: 1px;
+
+            background-color: #8B6F47;
+
+            transition:
+                width 0.25s ease;
+        }
+
+        .navigation a:hover {
+
+            color: #8B6F47;
+        }
+
+        .navigation a:hover::after {
+
+            width: 100%;
+        }
+
+
+
+
+        /* =========================
+           ADMIN LOGIN ICON
+        ========================== */
+
+        .admin-login {
+
+            width: 36px;
+
+            height: 36px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin-left: 2px;
+
+            color: #514438;
+
+            border: 1px solid
+                rgba(112, 92, 70, 0.14);
+
+            border-radius: 50%;
+
+            transition:
+                color 0.25s ease,
+                border-color 0.25s ease,
+                background-color 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .admin-login::after {
+
+            display: none;
+        }
+
+        .admin-login svg {
+
+            width: 17px;
+
+            height: 17px;
+
+            fill: none;
+
+            stroke: currentColor;
+
+            stroke-width: 1.8;
+
+            stroke-linecap: round;
+
+            stroke-linejoin: round;
+        }
+
+        .admin-login:hover {
+
+            color: #8B6F47;
+
+            border-color: #8B6F47;
+
+            background-color:
+                rgba(139, 111, 71, 0.05);
+
+            transform: translateY(-1px);
+        }
+
+        /* ACTIVE NAVIGATION */
+
+        .navigation a.active {
+
+            color: #8B6F47;
+        }
+
+        .navigation a.active::after {
+
+            width: 100%;
+        }
+
+
+        /* =========================
+           HERO
+        ========================== */
+
+        .hero {
+
+            min-height: 720px;
+
+            min-height: 100svh;
+
+            padding: 110px 7%;
+
+            display: flex;
+
+            align-items: center;
+
+            position: relative;
+
+            overflow: hidden;
+
+            background-image:
+
+                linear-gradient(
+                    90deg,
+                    rgba(37, 34, 31, 0.72) 0%,
+                    rgba(37, 34, 31, 0.52) 35%,
+                    rgba(37, 34, 31, 0.24) 70%,
+                    rgba(37, 34, 31, 0.12) 100%
+                ),
+
+                url("photo/cafe.luna.jpg");
+
+            background-size: cover;
+
+            background-position: center;
+        }
+
+        .hero::after {
+
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+
+            right: 0;
+
+            bottom: 0;
+
+            height: 120px;
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    rgba(247, 243, 237, 0),
+                    #F7F3ED
+                );
+
+            pointer-events: none;
+        }
+
+        .hero-content {
+
+            max-width: 720px;
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+        .hero-label {
+
+            margin: 0 0 25px;
+
+            color: #D4B07A;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            letter-spacing: 5px;
+
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+
+            margin: 0 0 30px;
+
+            color: #FFF9F2;
+
+            font-size: clamp(58px, 8vw, 100px);
+
+            font-weight: 500;
+
+            line-height: 0.94;
+
+            letter-spacing: -2px;
+
+            text-shadow:
+                0 4px 25px
+                rgba(37, 34, 31, 0.35);
+        }
+
+        .hero-text {
+
+            max-width: 510px;
+
+            margin: 0 0 38px;
+
+            color: #F5EEE5;
+
+            font-size: 17px;
+
+            line-height: 1.8;
+
+            text-shadow:
+                0 2px 10px
+                rgba(37, 34, 31, 0.25);
+        }
+
+
+        /* =========================
+           HERO BUTTONS
+        ========================== */
+
+        .hero-buttons {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 22px;
+
+            flex-wrap: wrap;
+        }
+
+        .primary-button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 15px 26px;
+
+            background-color: #806747;
+
+            color: #FFF9F2;
+
+            border-radius: 3px;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+            transition:
+                background-color 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .primary-button:hover {
+
+            background-color: #665039;
+
+            transform: translateY(-2px);
+        }
+
+        .secondary-button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            color: #FFF9F2;
+
+            font-size: 14px;
+
+            transition:
+                color 0.25s ease;
+        }
+
+        .secondary-button span {
+
+            font-size: 18px;
+
+            transition:
+                transform 0.25s ease;
+        }
+
+        .secondary-button:hover {
+
+            color: #D4B07A;
+        }
+
+        .secondary-button:hover span {
+
+            transform: translateX(4px);
+        }
+
+
+        /* =========================
+           HERO DETAIL
+        ========================== */
+
+        .hero-detail {
+
+            position: absolute;
+
+            right: 7%;
+
+            bottom: 105px;
+
+            z-index: 2;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            color: rgba(255, 249, 242, 0.75);
+
+            font-size: 11px;
+
+            letter-spacing: 2px;
+
+            text-transform: uppercase;
+        }
+
+        .hero-detail-line {
+
+            width: 45px;
+
+            height: 1px;
+
+            background-color:
+                rgba(212, 176, 122, 0.7);
+        }
+
+
+        /* =========================
+           GENERAL SECTIONS
+        ========================== */
+
+        .section {
+
+            padding: 115px 7%;
+        }
+
+        .section-content {
+
+            max-width: 700px;
+        }
+
+        .section-label {
+
+            margin-bottom: 20px;
+
+            color: #8B6F47;
+
+            font-size: 12px;
+
+            letter-spacing: 2px;
+
+            font-weight: 600;
+        }
+
+        .section h2 {
+
+            color: #2D2722;
+
+            font-size: clamp(42px, 5vw, 68px);
+
+            font-weight: 500;
+
+            line-height: 1.04;
+
+            letter-spacing: -1px;
+        }
+
+        .description {
+
+            max-width: 600px;
+
+            color: #625B53;
+
+            font-size: 16px;
+
+            line-height: 1.85;
+        }
+
+
+        /* =========================
+           ABOUT
+        ========================== */
+
+        .about {
+
+            position: relative;
+
+            background-color: #F7F3ED;
+        }
+
+        .about::before {
+
+            content: "LUNA";
+
+            position: absolute;
+
+            right: 7%;
+
+            top: 80px;
+
+            color:
+                rgba(112, 92, 70, 0.041);
+
+            font-family:
+                'Playfair Display', serif;
+
+            font-size: clamp(100px, 18vw, 260px);
+
+            line-height: 1;
+
+            pointer-events: none;
+
+            white-space: nowrap;
+        }
+
+        .about .description:first-of-type {
+
+            margin-top: 35px;
+        }
+
+
+        /* =========================
+           MENU
+        ========================== */
+
+        .menu-preview {
+
+            background-color: #FFFDFC;
+
+            border-top:
+                1px solid
+                rgba(112, 92, 70, 0.07);
+
+            border-bottom: none;
+        }
+
+        .section-heading {
+
+            display: flex;
+
+            align-items: end;
+
+            justify-content: space-between;
+
+            gap: 30px;
+
+            margin-bottom: 50px;
+        }
+
+        .section-heading h2 {
+
+            margin-bottom: 0;
+        }
+
+        .text-link {
+
+            color: #806747;
+
+            font-size: 14px;
+
+            white-space: nowrap;
+
+            transition:
+                color 0.25s ease;
+        }
+
+        .text-link:hover {
+
+            color: #5F4934;
+
+            text-decoration: underline;
+        }
+
+        .menu-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 25px;
+        }
+
+        .menu-card {
+
+            min-width: 0;
+
+            background-color: #F7F3ED;
+
+            overflow: hidden;
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+        }
+
+        .menu-card:hover {
+
+            transform: translateY(-6px);
+
+            box-shadow:
+                0 18px 40px
+                rgba(45, 39, 34, 0.09);
+        }
+
+        .menu-image {
+
+            height: 290px;
+
+            background-size: cover;
+
+            background-position: center;
+
+            transition:
+                transform 0.5s ease;
+        }
+
+        .menu-card:hover .menu-image {
+
+            transform: scale(1.035);
+        }
+
+        .menu-card-content {
+
+            padding: 27px;
+        }
+
+        .menu-card h3 {
+
+            margin-bottom: 10px;
+
+            color: #2D2722;
+
+            font-size: 26px;
+
+            font-weight: 600;
+        }
+
+        .menu-card p {
+
+            min-height: 50px;
+
+            color: #6B655E;
+
+            line-height: 1.65;
+        }
+
+        .menu-card span {
+
+            display: block;
+
+            margin-top: 20px;
+
+            color: #8B6F47;
+
+            font-weight: 600;
+        }
+
+
+        /* =========================
+           FINAL VISIT
+        ========================== */
+
+        .final-visit {
+
+            margin-top: 0;
+
+            min-height: 760px;
+
+            min-height: 100svh;
+
+            position: relative;
+
+            display: flex;
+
+            align-items: center;
+
+            overflow: hidden;
+
+            color: #F7F3ED;
+
+            background-image:
+
+                linear-gradient(
+                    to bottom,
+
+                    rgba(247, 243, 237, 0.04) 0%,
+
+                    rgba(76, 62, 49, 0.15) 18%,
+
+                    rgba(65, 53, 43, 0.30) 36%,
+
+                    rgba(48, 40, 34, 0.48) 55%,
+
+                    rgba(48, 40, 34, 0.68) 75%,
+
+                    rgba(37, 34, 31, 0.88) 100%
+                ),
+
+                url("photo/coffee.luna.jpg");
+
+            background-size: cover;
+
+            background-position: center;
+        }
+
+
+        /* SOFT FADE BETWEEN MENU AND FINAL VISIT */
+
+        .final-visit::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+
+            left: 0;
+
+            right: 0;
+
+            height: 140px;
+
+            z-index: 1;
+
+            background:
+
+                linear-gradient(
+                    to bottom,
+
+                    #FFFDFC 0%,
+
+                    rgba(255, 253, 252, 0.90) 15%,
+
+                    rgba(255, 253, 252, 0.65) 35%,
+
+                    rgba(255, 253, 252, 0.35) 55%,
+
+                    rgba(255, 253, 252, 0.12) 75%,
+
+                    rgba(255, 253, 252, 0) 100%
+                );
+
+            pointer-events: none;
+        }
+
+
+        .final-visit-content {
+
+            width: 100%;
+
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            padding:
+                210px 7% 100px;
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+        .final-visit-label {
+
+            margin: 0 0 30px;
+
+            color: #EBD3B1;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            letter-spacing: 6px;
+
+            text-transform: uppercase;
+        }
+
+        .final-visit h2 {
+
+            max-width: 850px;
+
+            margin: 0;
+
+            color: #FFF8EE;
+
+            font-family:
+                'Playfair Display', serif;
+
+            font-size:
+                clamp(46px, 6.5vw, 82px);
+
+            font-weight: 500;
+
+            line-height: 1.04;
+
+            letter-spacing: -1px;
+
+            text-shadow:
+                0 3px 18px
+                rgba(37, 34, 31, 0.32);
+        }
+
+        .final-visit-decoration {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+
+            margin: 40px 0 35px;
+        }
+
+        .final-visit-line {
+
+            width: 110px;
+
+            height: 1px;
+
+            background-color: #D4B07A;
+        }
+
+        .final-visit-leaf {
+
+            color: #D4B07A;
+
+            font-size: 25px;
+
+            line-height: 1;
+
+            transform: rotate(-12deg);
+        }
+
+        .final-visit-text {
+
+            max-width: 650px;
+
+            margin: 0;
+
+            color: #F8F0E6;
+
+            font-size: 17px;
+
+            line-height: 1.8;
+
+            text-shadow:
+                0 2px 10px
+                rgba(37, 34, 31, 0.28);
+        }
+
+        .final-visit-highlight {
+
+            margin-top: 28px;
+
+            color: #E0BC83;
+
+            font-size: 17px;
+
+            font-weight: 600;
+
+            line-height: 1.6;
+
+            text-shadow:
+                0 2px 10px
+                rgba(37, 34, 31, 0.28);
+        }
+
+
+        /* =========================
+           OPENING HOURS
+        ========================== */
+
+        .hours {
+
+            margin-top: 30px;
+
+            padding-top: 70px;
+
+            padding-bottom: 70px;
+
+            background-color: #40372F;
+
+            color: #F7F3ED;
+
+            border-top:
+                1px solid
+                rgba(212, 176, 122, 0.08);
+
+            border-bottom:
+                1px solid
+                rgba(212, 176, 122, 0.10);
+        }
+
+        .hours-box {
+
+            max-width: 700px;
+
+            margin: 0 auto;
+        }
+
+        .hours-box .section-label {
+
+            color: #C4A57B;
+        }
+
+        .hours-box h2 {
+
+            margin-bottom: 35px;
+
+            color: #F7F3ED;
+        }
+
+        .hours-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 30px;
+
+            padding: 16px 0;
+
+            color: #EDE5DB;
+
+            border-bottom:
+                1px solid
+                rgba(196, 165, 123, 0.14);
+        }
+
+        .hours-row:last-child {
+
+            border-bottom-color:
+                rgba(196, 165, 123, 0.07);
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================== */
+
+        .footer {
+
+            padding: 32px 7%;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            background-color: #F7F3ED;
+
+            border-top:
+                1px solid #DDD5C9;
+
+            color: #756D64;
+
+            font-size: 13px;
+        }
+
+        .footer p {
+
+            margin: 0;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 1100px) {
+
+            .hero {
+
+                padding-left: 6%;
+
+                padding-right: 6%;
+            }
+
+            .section {
+
+                padding-left: 6%;
+
+                padding-right: 6%;
+            }
+
+        }
+
+
+        @media (max-width: 900px) {
+
+            .hero {
+
+                min-height: 650px;
+
+                min-height: 100svh;
+
+                padding:
+                    90px 6%;
+            }
+
+            .hero-detail {
+
+                display: none;
+            }
+
+            .section {
+
+                padding:
+                    90px 6%;
+            }
+
+            .menu-grid {
+
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .menu-card:last-child {
+
+                grid-column:
+                    span 2;
+            }
+
+            .final-visit {
+
+                min-height: 720px;
+            }
+
+            .final-visit-content {
+
+                padding:
+                    190px 8% 90px;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .header {
+
+                height: auto;
+
+                padding:
+                    22px 6%;
+
+                flex-direction: column;
+
+                gap: 20px;
+            }
+
+            .navigation {
+
+                justify-content: center;
+
+                flex-wrap: wrap;
+
+                gap: 20px;
+            }
+
+            .hero {
+
+                min-height: 650px;
+
+                min-height: 100svh;
+
+                padding:
+                    80px 6%;
+
+                background-image:
+
+                    linear-gradient(
+                        90deg,
+                        rgba(37, 34, 31, 0.75),
+                        rgba(37, 34, 31, 0.32)
+                    ),
+
+                    url("photo/cafe.luna.jpg");
+
+                background-position:
+                    62% center;
+            }
+
+            .hero h1 {
+
+                font-size:
+                    clamp(52px, 13vw, 76px);
+            }
+
+            .hero-text {
+
+                font-size: 15px;
+            }
+
+            .section-heading {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+                gap: 18px;
+            }
+
+            .menu-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .menu-card:last-child {
+
+                grid-column: auto;
+            }
+
+            .menu-image {
+
+                height: 270px;
+            }
+
+            .about::before {
+
+                right: 5%;
+
+                top: clamp(20px, 6vw, 80px);
+
+                font-size:
+                    clamp(70px, 18vw, 260px);
+
+            }
+
+            .about .section-content {
+
+                position: relative;
+
+                z-index: 1;
+            }
+
+            .final-visit {
+
+                min-height: 700px;
+
+                min-height: 100svh;
+
+                background-image:
+
+                    linear-gradient(
+                        to bottom,
+
+                        rgba(247, 243, 237, 0.04) 0%,
+
+                        rgba(76, 62, 49, 0.15) 18%,
+
+                        rgba(65, 53, 43, 0.30) 36%,
+
+                        rgba(48, 40, 34, 0.50) 55%,
+
+                        rgba(48, 40, 34, 0.70) 75%,
+
+                        rgba(37, 34, 31, 0.90) 100%
+                    ),
+
+                    url("photo/coffee.luna.jpg");
+
+                background-position:
+                    center;
+            }
+
+            .final-visit-content {
+
+                padding:
+                    180px 8% 80px;
+            }
+
+            .final-visit h2 {
+
+                font-size:
+                    clamp(44px, 11vw, 68px);
+            }
+
+            .hours {
+
+                margin-top: 30px;
+
+                padding:
+                    55px 7%;
+            }
+
+            .footer {
+
+                padding:
+                    28px 6%;
+
+                flex-direction: column;
+
+                gap: 10px;
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .header {
+
+                padding:
+                    20px 5%;
+            }
+
+            .logo {
+
+                font-size: 24px;
+            }
+
+            .navigation {
+
+                width: 100%;
+
+                gap: 14px 18px;
+            }
+
+            .navigation a {
+
+                font-size: 13px;
+            }
+
+            .admin-login {
+
+                width: 34px;
+
+                height: 34px;
+
+                margin-left: 0;
+            }
+
+            .hero {
+
+                min-height: 620px;
+
+                min-height: 100svh;
+
+                padding:
+                    75px 7%;
+            }
+
+            .hero-label {
+
+                font-size: 10px;
+
+                letter-spacing: 4px;
+            }
+
+            .hero h1 {
+
+                font-size: 52px;
+
+                letter-spacing: -1px;
+            }
+
+            .hero-buttons {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+                gap: 18px;
+            }
+
+            .primary-button {
+
+                padding:
+                    14px 23px;
+            }
+
+            .section {
+
+                padding:
+                    75px 7%;
+            }
+
+            .section h2 {
+
+                font-size: 44px;
+            }
+
+            .description {
+
+                font-size: 15px;
+
+                line-height: 1.8;
+            }
+
+            .menu-card-content {
+
+                padding: 23px;
+            }
+
+            .menu-image {
+
+                height: 250px;
+            }
+
+            .final-visit {
+
+                min-height: 700px;
+
+                min-height: 100svh;
+
+                background-image:
+
+                    linear-gradient(
+                        to bottom,
+
+                        rgba(247, 243, 237, 0.04) 0%,
+
+                        rgba(76, 62, 49, 0.15) 18%,
+
+                        rgba(65, 53, 43, 0.30) 36%,
+
+                        rgba(48, 40, 34, 0.52) 55%,
+
+                        rgba(48, 40, 34, 0.72) 75%,
+
+                        rgba(37, 34, 31, 0.92) 100%
+                    ),
+
+                    url("photo/coffee.luna.jpg");
+
+                background-position:
+                    60% center;
+            }
+
+            .final-visit-content {
+
+                padding:
+                    175px 8% 70px;
+            }
+
+            .final-visit-label {
+
+                margin-bottom: 24px;
+
+                font-size: 10px;
+
+                letter-spacing: 4px;
+            }
+
+            .final-visit h2 {
+
+                font-size: 47px;
+
+                line-height: 1.08;
+            }
+
+            .final-visit-decoration {
+
+                margin:
+                    30px 0 28px;
+            }
+
+            .final-visit-line {
+
+                width: 75px;
+            }
+
+            .final-visit-text {
+
+                font-size: 15px;
+
+                line-height: 1.8;
+            }
+
+            .final-visit-highlight {
+
+                margin-top: 24px;
+
+                font-size: 15px;
+            }
+
+            .hours {
+
+                margin-top: 30px;
+
+                padding:
+                    48px 8%;
+            }
+
+            .hours-row {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 8px;
+            }
+
+        }
+
+
+        @media (max-width: 360px) {
+
+            .navigation {
+
+                gap: 12px;
+            }
+
+            .navigation a {
+
+                font-size: 12px;
+            }
+
+            .hero {
+
+                padding-left: 6%;
+
+                padding-right: 6%;
+            }
+
+            .hero h1 {
+
+                font-size: 46px;
+            }
+
+            .section h2 {
+
+                font-size: 39px;
+            }
+
+            .final-visit h2 {
+
+                font-size: 42px;
+            }
+
+        }
+
+
+        /* =========================
+           REDUCED MOTION
+        ========================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+
+                animation-duration: 0.01ms !important;
+
+                animation-iteration-count: 1 !important;
+
+                transition-duration: 0.01ms !important;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <a class="logo"
+           href="index.html">
+
+            LUNA Coffee
+
+        </a>
+
+
+        <nav class="navigation">
+
+            <a href="index.html"
+               class="active">
+                Home
+            </a>
+
+            <a href="about.html">
+                About
+            </a>
+
+            <a href="menu.html">
+                Menu
+            </a>
+
+            <a href="contact.html">
+                Contact
+            </a>
+
+            <a class="admin-login"
+               href="login.html"
+               aria-label="Staff login"
+               title="Staff login">
+
+                <svg viewBox="0 0 24 24"
+                     aria-hidden="true">
+
+                    <circle cx="12"
+                            cy="8"
+                            r="3.5"></circle>
+
+                    <path d="M4.5 20c.8-3.7 3.5-5.5 7.5-5.5s6.7 1.8 7.5 5.5"></path>
+
+                </svg>
+
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <main>
+
+
+        <!-- HERO -->
+
+        <section class="hero"
+                 id="home">
+
+            <div class="hero-content">
+
+                <p class="hero-label">
+                    SPECIALTY COFFEE · HAMBURG
+                </p>
+
+                <h1>
+                    Good coffee,<br>
+                    slow moments.
+                </h1>
+
+                <p class="hero-text">
+
+                    Specialty coffee and homemade pastries
+                    in the heart of Hamburg — made for slow
+                    mornings, warm conversations, and moments
+                    worth staying for.
+
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a class="primary-button"
+                       href="#menu">
+
+                        Explore Our Menu
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="hero-detail">
+
+                <span class="hero-detail-line"></span>
+
+                <span>
+                    EST. 2026
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- ABOUT -->
+
+        <section class="about section reveal"
+                 id="about">
+
+            <div class="section-content">
+
+                <p class="section-label">
+                    ABOUT US
+                </p>
+
+                <h2>
+                    A little place<br>
+                    to slow down.
+                </h2>
+
+                <p class="description">
+
+                    LUNA Coffee is a small neighborhood café
+                    built around good coffee, warm conversations,
+                    and simple moments.
+
+                </p>
+
+                <p class="description">
+
+                    We serve specialty coffee, fresh pastries,
+                    and homemade cakes every day — because
+                    sometimes the best part of the day is simply
+                    having somewhere beautiful to pause.
+
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- MENU -->
+
+        <section class="menu-preview section reveal"
+                 id="menu">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="section-label">
+                        OUR MENU
+                    </p>
+
+                    <h2>
+                        A taste of LUNA.
+                    </h2>
+
+                </div>
+
+                <a class="text-link"
+                   href="menu.html">
+
+                    View Full Menu →
+
+                </a>
+
+            </div>
+
+
+            <div class="menu-grid"
+                 id="menu-preview-grid">
+
+                <!-- Dynamic menu preview from script.js -->
+
+            </div>
+
+        </section>
+
+
+        <!-- FINAL VISIT -->
+
+        <section class="final-visit reveal">
+
+            <div class="final-visit-content">
+
+                <p class="final-visit-label">
+                    COME VISIT US
+                </p>
+
+                <h2>
+
+                    Good coffee is<br>
+                    better when we<br>
+                    share it with you.
+
+                </h2>
+
+                <div class="final-visit-decoration">
+
+                    <span class="final-visit-line"></span>
+
+                    <span class="final-visit-leaf">
+                        ❧
+                    </span>
+
+                </div>
+
+                <p class="final-visit-text">
+
+                    LUNA Coffee is more than just a café.
+                    It’s a place for slow mornings, warm smiles,
+                    and little moments that stay with you.
+
+                </p>
+
+                <p class="final-visit-highlight">
+
+                    We’d be honored to welcome you.
+
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- OPENING HOURS -->
+
+        <section class="hours section reveal">
+
+            <div class="hours-box">
+
+                <p class="section-label">
+                    WHEN TO VISIT
+                </p>
+
+                <h2>
+                    Opening Hours
+                </h2>
+
+                <div class="hours-row" id="weekday-hours">
+
+                    <span>
+                        Monday – Friday
+                    </span>
+
+                    <span>
+                        08:00 – 19:00
+                    </span>
+
+                </div>
+
+                <div class="hours-row" id="weekend-hours">
+
+                    <span>
+                        Saturday – Sunday
+                    </span>
+
+                    <span>
+                        09:00 – 20:00
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <p>
+            © 2026 LUNA Coffee
+        </p>
+
+        <p>
+            Slow mornings. Good coffee.
+        </p>
+
+    </footer>
+
+
+    <!-- SUPABASE -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="script.js"></script>
+
+
+    <!-- =========================
+         SCROLL REVEAL SCRIPT
+    ========================== -->
+
+    <script>
+
+        const revealElements =
+            document.querySelectorAll(".reveal");
+
+
+        const revealOnScroll =
+            new IntersectionObserver(
+
+                function(entries) {
+
+                    entries.forEach(
+                        function(entry) {
+
+                            if (entry.isIntersecting) {
+
+                                entry.target
+                                    .classList
+                                    .add("active");
+
+                            }
+
+                        }
+                    );
+
+                },
+
+                {
+                    threshold: 0.12
+                }
+
+            );
+
+
+        revealElements.forEach(
+            function(element) {
+
+                revealOnScroll.observe(
+                    element
+                );
+
+            }
+        );
+
+
+        /* =========================
+           ACTIVE NAVIGATION
+        ========================== */
+
+        const navigationLinks =
+            document.querySelectorAll(
+                '.navigation a[href^="#"]'
+            );
+
+
+        const sections =
+            document.querySelectorAll(
+                "#home, #about"
+            );
+
+
+        navigationLinks.forEach(
+            function(link) {
+
+                link.addEventListener(
+                    "click",
+
+                    function() {
+
+                        navigationLinks.forEach(
+                            function(item) {
+
+                                item.classList.remove(
+                                    "active"
+                                );
+
+                            }
+                        );
+
+                        this.classList.add(
+                            "active"
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        const navigationObserver =
+            new IntersectionObserver(
+
+                function(entries) {
+
+                    entries.forEach(
+                        function(entry) {
+
+                            if (
+                                entry.isIntersecting
+                            ) {
+
+                                const id =
+                                    entry.target.id;
+
+
+                                navigationLinks.forEach(
+                                    function(link) {
+
+                                        link.classList.remove(
+                                            "active"
+                                        );
+
+
+                                        if (
+                                            link.getAttribute(
+                                                "href"
+                                            ) === "#" + id
+                                        ) {
+
+                                            link.classList.add(
+                                                "active"
+                                            );
+
+                                        }
+
+                                    }
+                                );
+
+                            }
+
+                        }
+                    );
+
+                },
+
+                {
+                    threshold: 0.45
+                }
+
+            );
+
+
+        sections.forEach(
+            function(section) {
+
+                navigationObserver.observe(
+                    section
+                );
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,5812 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>LUNA Coffee — Admin</title>
+
+
+    <!-- GOOGLE FONTS -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap"
+          rel="stylesheet">
+
+
+    <!-- SUPABASE -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            background: #F5F1EA;
+            color: #25221F;
+
+            font-family: 'Inter', sans-serif;
+        }
+
+
+        /* =========================
+           LAYOUT
+        ========================== */
+
+        .admin-layout {
+            min-height: 100vh;
+
+            display: grid;
+            grid-template-columns: 230px 1fr;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================== */
+
+        .sidebar {
+            position: sticky;
+            top: 0;
+
+            height: 100vh;
+
+            background: #25221F;
+            color: white;
+
+            padding: 40px 25px;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        .brand {
+            margin-bottom: 55px;
+        }
+
+
+        .brand h1 {
+            margin: 0;
+
+            font-family: 'Playfair Display', serif;
+
+            font-size: 30px;
+            font-weight: 600;
+        }
+
+
+        .brand span {
+            display: block;
+
+            margin-top: 5px;
+
+            font-size: 10px;
+            letter-spacing: 3px;
+
+            opacity: .6;
+        }
+
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+
+        .nav-item {
+            padding: 13px 15px;
+
+            border-radius: 4px;
+
+            color: #D8D0C5;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            transition: .2s ease;
+        }
+
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #8B6F47;
+            color: white;
+        }
+
+
+        .back-link {
+            margin-top: auto;
+
+            color: #BDB5AA;
+
+            text-decoration: none;
+
+            font-size: 12px;
+        }
+
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================== */
+
+        .main-content {
+            width: 100%;
+            max-width: 1100px;
+
+            padding: 55px 60px;
+
+            margin: 0 auto;
+        }
+
+
+        .page-header {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: flex-start;
+
+            margin-bottom: 40px;
+        }
+
+
+        .eyebrow,
+        .section-label {
+            color: #8B6F47;
+
+            font-size: 10px;
+            font-weight: 600;
+
+            letter-spacing: 2px;
+        }
+
+
+        .page-header h2 {
+            margin: 8px 0;
+
+            font-family: 'Playfair Display', serif;
+
+            font-size: 42px;
+            font-weight: 600;
+        }
+
+
+        .header-description {
+            margin: 0;
+
+            color: #8A837B;
+
+            font-size: 14px;
+        }
+
+
+        .connection-status {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            font-size: 12px;
+
+            color: #6F5738;
+        }
+
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #6F5738;
+        }
+
+
+        /* =========================
+           PANELS
+        ========================== */
+
+        .panel {
+            background: white;
+
+            padding: 35px;
+
+            margin-bottom: 30px;
+
+            border: 1px solid #E7E0D7;
+
+            border-radius: 6px;
+
+            box-shadow:
+                0 8px 25px rgba(37,34,31,.04);
+        }
+
+
+        .panel-header {
+            margin-bottom: 28px;
+        }
+
+
+        .panel-header h3 {
+            margin: 6px 0 0;
+
+            font-family: 'Playfair Display', serif;
+
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+
+        .panel-description {
+            margin: 8px 0 0;
+
+            color: #8A837B;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =========================
+           FORM
+        ========================== */
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr 160px;
+
+            gap: 20px;
+
+            margin-top: 25px;
+        }
+
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+
+        label {
+            display: block;
+
+            margin-bottom: 9px;
+
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1px solid #DDD6CC;
+
+            border-radius: 3px;
+
+            background: #F8F5F0;
+
+            color: #25221F;
+
+            font-family: 'Inter', sans-serif;
+
+            font-size: 13px;
+
+            transition: .2s ease;
+        }
+
+
+        textarea {
+            min-height: 110px;
+
+            resize: vertical;
+        }
+
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+
+            border-color: #8B6F47;
+
+            background: white;
+        }
+
+
+        /* =========================
+           BUTTONS
+        ========================== */
+
+        .primary-button {
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+            border-radius: 3px;
+
+            background: #8B6F47;
+
+            color: white;
+
+            font-family: 'Inter', sans-serif;
+
+            font-size: 13px;
+
+            cursor: pointer;
+
+            transition: .2s ease;
+        }
+
+
+        .primary-button:hover {
+            background: #6F5738;
+
+            transform: translateY(-1px);
+        }
+
+
+        .danger-button {
+            width: 100%;
+
+            padding: 14px;
+
+            border: 1px solid #B85C5C;
+            border-radius: 3px;
+
+            background: white;
+
+            color: #B85C5C;
+
+            font-family: 'Inter', sans-serif;
+
+            font-size: 13px;
+
+            cursor: pointer;
+
+            transition: .2s ease;
+        }
+
+
+        .danger-button:hover {
+            background: #B85C5C;
+
+            color: white;
+        }
+
+
+        .button-row {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 12px;
+        }
+
+
+        /* =========================
+           IMAGE
+        ========================== */
+
+        .image-section {
+            display: grid;
+
+            grid-template-columns: 180px 1fr;
+
+            gap: 30px;
+
+            align-items: start;
+
+            margin-top: 10px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .current-image {
+            width: 180px;
+            height: 150px;
+
+            object-fit: cover;
+
+            border-radius: 4px;
+
+            background: #F1ECE5;
+
+            display: block;
+        }
+
+
+        /* =========================
+           CATEGORY
+        ========================== */
+
+        .category-grid {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 25px;
+        }
+
+
+        .category-list {
+            border-top: 1px solid #E7E0D7;
+
+            margin-top: 15px;
+        }
+
+
+        .category-item {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 15px 0;
+
+            border-bottom: 1px solid #E7E0D7;
+        }
+
+
+        .category-info strong {
+            display: block;
+
+            font-size: 14px;
+        }
+
+
+        .category-info span {
+            display: block;
+
+            margin-top: 4px;
+
+            color: #8A837B;
+
+            font-size: 11px;
+        }
+
+
+        .category-actions {
+            display: flex;
+
+            gap: 8px;
+        }
+
+
+        .small-button {
+            padding: 8px 12px;
+
+            border: 1px solid #DDD6CC;
+            border-radius: 3px;
+
+            background: white;
+
+            color: #6F5738;
+
+            font-size: 11px;
+
+            cursor: pointer;
+
+            transition: .2s ease;
+        }
+
+
+        .small-button:hover {
+            background: #F5F1EA;
+        }
+
+
+        .small-delete {
+            color: #B85C5C;
+
+            border-color: #E4C7C7;
+        }
+
+
+        /* =========================
+           MENU PREVIEW
+        ========================== */
+
+        .preview-grid {
+            display: grid;
+
+            grid-template-columns: 1fr;
+
+            gap: 16px;
+
+            margin-top: 25px;
+        }
+
+
+        .preview-item {
+            display: grid;
+
+            grid-template-columns: 55px 1fr;
+
+            gap: 18px;
+
+            align-items: center;
+
+            padding: 18px;
+
+            border: 1px solid #E7E0D7;
+
+            border-radius: 5px;
+
+            background: #FBF9F6;
+        }
+
+
+        .preview-number {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 42px;
+            height: 42px;
+
+            border-radius: 50%;
+
+            background: #25221F;
+
+            color: white;
+
+            font-family: 'Playfair Display', serif;
+
+            font-size: 15px;
+        }
+
+
+        .preview-item label {
+            margin-bottom: 8px;
+
+            color: #6F5738;
+
+            font-size: 11px;
+
+            letter-spacing: .3px;
+        }
+
+
+        .preview-note {
+            margin-top: 20px;
+
+            padding: 15px 17px;
+
+            border-left: 2px solid #8B6F47;
+
+            background: #F8F5F0;
+
+            color: #8A837B;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =========================
+           SETTINGS
+        ========================== */
+
+        .settings-section {
+            padding-bottom: 30px;
+
+            margin-bottom: 30px;
+
+            border-bottom: 1px solid #E7E0D7;
+        }
+
+
+        .settings-section:last-of-type {
+            border-bottom: none;
+
+            margin-bottom: 0;
+        }
+
+
+        .settings-title {
+            margin: 0 0 5px;
+
+            font-family: 'Playfair Display', serif;
+
+            font-size: 21px;
+
+            font-weight: 600;
+        }
+
+
+        .settings-description {
+            margin: 0 0 25px;
+
+            color: #8A837B;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+        }
+
+
+        .hours-grid {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr 1fr;
+
+            gap: 15px;
+
+            align-items: end;
+        }
+
+
+        .hours-day {
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+
+        .hours-inputs {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 10px;
+        }
+
+
+        .settings-save {
+            margin-top: 5px;
+
+            max-width: 220px;
+        }
+
+
+        /* =========================
+           STATUS
+        ========================== */
+
+        #status {
+            position: fixed;
+
+            right: 25px;
+            bottom: 25px;
+
+            z-index: 9998;
+
+            min-width: 230px;
+            max-width: 360px;
+
+            margin: 0;
+
+            padding: 13px 17px;
+
+            border: 1px solid #DDD6CC;
+            border-radius: 4px;
+
+            background: #25221F;
+
+            color: #F7F3ED;
+
+            text-align: left;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+
+            box-shadow:
+                0 12px 35px rgba(37,34,31,.16);
+
+            opacity: 0;
+
+            visibility: hidden;
+
+            transform: translateY(10px);
+
+            transition: .25s ease;
+
+            pointer-events: none;
+        }
+
+
+        #status.show {
+            opacity: 1;
+
+            visibility: visible;
+
+            transform: translateY(0);
+        }
+
+
+        /* =========================
+           CONFIRM MODAL
+        ========================== */
+
+        .luna-modal-overlay {
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 9999;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            background:
+                rgba(37,34,31,.58);
+
+            backdrop-filter: blur(5px);
+
+            opacity: 0;
+
+            visibility: hidden;
+
+            transition: .2s ease;
+        }
+
+
+        .luna-modal-overlay.show {
+            opacity: 1;
+
+            visibility: visible;
+        }
+
+
+        .luna-modal {
+            width: min(430px,100%);
+
+            padding: 32px;
+
+            background: #F7F3ED;
+
+            border: 1px solid #DDD6CC;
+
+            border-radius: 6px;
+
+            box-shadow:
+                0 25px 70px rgba(37,34,31,.22);
+
+            transform:
+                translateY(12px) scale(.98);
+
+            transition: .2s ease;
+        }
+
+
+        .luna-modal-overlay.show .luna-modal {
+            transform:
+                translateY(0) scale(1);
+        }
+
+
+        .luna-modal-label {
+            margin: 0 0 8px;
+
+            color: #8B6F47;
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            letter-spacing: 2px;
+        }
+
+
+        .luna-modal h3 {
+            margin: 0 0 10px;
+
+            font-family: 'Playfair Display', serif;
+
+            font-size: 27px;
+        }
+
+
+        .luna-modal-message {
+            margin: 0;
+
+            color: #6F6962;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+        }
+
+
+        .luna-modal-actions {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 10px;
+
+            margin-top: 25px;
+        }
+
+
+        .luna-modal-button {
+            padding: 12px 15px;
+
+            border-radius: 3px;
+
+            font-family: 'Inter', sans-serif;
+
+            font-size: 12px;
+
+            cursor: pointer;
+        }
+
+
+        .luna-modal-cancel {
+            border: 1px solid #DDD6CC;
+
+            background: white;
+
+            color: #6F5738;
+        }
+
+
+        .luna-modal-confirm {
+            border: 1px solid #B85C5C;
+
+            background: #B85C5C;
+
+            color: white;
+        }
+
+
+        /* =========================
+           CUSTOM SELECT
+        ========================== */
+
+        select {
+            appearance: none;
+
+            -webkit-appearance: none;
+
+            padding-right: 42px;
+
+            cursor: pointer;
+
+            background-image:
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238B6F47' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+
+            background-repeat: no-repeat;
+
+            background-position:
+                right 14px center;
+        }
+
+
+        .luna-select {
+            position: relative;
+
+            width: 100%;
+        }
+
+
+        .luna-select-native {
+            position: absolute !important;
+
+            width: 1px !important;
+            height: 1px !important;
+
+            padding: 0 !important;
+            margin: -1px !important;
+
+            overflow: hidden !important;
+
+            clip: rect(0,0,0,0) !important;
+
+            opacity: 0 !important;
+        }
+
+
+        .luna-select-button {
+            width: 100%;
+
+            min-height: 44px;
+
+            padding: 13px 42px 13px 14px;
+
+            border: 1px solid #DDD6CC;
+
+            border-radius: 3px;
+
+            background: #F8F5F0;
+
+            color: #25221F;
+
+            font-family: 'Inter', sans-serif;
+
+            font-size: 13px;
+
+            text-align: left;
+
+            cursor: pointer;
+
+            position: relative;
+        }
+
+
+        .luna-select-button::after {
+            content: "";
+
+            position: absolute;
+
+            right: 15px;
+
+            top: 50%;
+
+            width: 7px;
+            height: 7px;
+
+            border-right:
+                1.5px solid #8B6F47;
+
+            border-bottom:
+                1.5px solid #8B6F47;
+
+            transform:
+                translateY(-65%) rotate(45deg);
+
+            transition: .2s ease;
+        }
+
+
+        .luna-select.open
+        .luna-select-button {
+            border-color: #8B6F47;
+
+            background: white;
+        }
+
+
+        .luna-select.open
+        .luna-select-button::after {
+            transform:
+                translateY(-25%)
+                rotate(225deg);
+        }
+
+
+        .luna-select-button.placeholder {
+            color: #8A837B;
+        }
+
+
+        .luna-select-options {
+            position: absolute;
+
+            z-index: 1000;
+
+            left: 0;
+            right: 0;
+
+            top: calc(100% + 6px);
+
+            max-height: 230px;
+
+            overflow-y: auto;
+
+            padding: 6px;
+
+            background: #F8F5F0;
+
+            border: 1px solid #D9D0C5;
+
+            border-radius: 4px;
+
+            box-shadow:
+                0 14px 35px rgba(37,34,31,.12);
+
+            display: none;
+        }
+
+
+        .luna-select.open
+        .luna-select-options {
+            display: block;
+        }
+
+
+        .luna-select-option {
+            width: 100%;
+
+            padding: 11px 12px;
+
+            border: 0;
+
+            border-radius: 3px;
+
+            background: transparent;
+
+            color: #25221F;
+
+            font-family: 'Inter', sans-serif;
+
+            font-size: 13px;
+
+            text-align: left;
+
+            cursor: pointer;
+        }
+
+
+        .luna-select-option:hover {
+            background: #EDE5DA;
+
+            color: #6F5738;
+        }
+
+
+        .luna-select-option.selected {
+            background: #8B6F47;
+
+            color: white;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================== */
+
+        @media (max-width: 800px) {
+
+            .admin-layout {
+                grid-template-columns: 1fr;
+            }
+
+
+            .sidebar {
+                position: relative;
+
+                height: auto;
+
+                padding: 25px;
+
+                flex-direction: row;
+
+                align-items: center;
+
+                justify-content: space-between;
+            }
+
+
+            .brand {
+                margin: 0;
+            }
+
+
+            nav {
+                display: none;
+            }
+
+
+            .back-link {
+                margin: 0;
+            }
+
+
+            .main-content {
+                padding: 35px 20px;
+            }
+
+
+            .page-header {
+                flex-direction: column;
+
+                gap: 20px;
+            }
+
+
+            .page-header h2 {
+                font-size: 34px;
+            }
+
+
+            .form-grid,
+            .category-grid,
+            .hours-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .image-section {
+                grid-template-columns: 1fr;
+            }
+
+
+            .button-row {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 550px) {
+
+            .panel {
+                padding: 25px 20px;
+            }
+
+
+            #status {
+                left: 20px;
+                right: 20px;
+
+                bottom: 20px;
+
+                min-width: 0;
+                max-width: none;
+            }
+
+
+            .preview-item {
+                grid-template-columns: 42px 1fr;
+
+                gap: 12px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <!-- =================================================
+         SIDEBAR
+    ================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <h1>LUNA</h1>
+
+            <span>COFFEE</span>
+
+        </div>
+
+
+        <nav>
+
+            <a href="#menu-preview"
+               class="nav-item active">
+
+                Menu Preview
+
+            </a>
+
+
+            <a href="#products"
+               class="nav-item">
+
+                Products
+
+            </a>
+
+
+            <a href="#categories"
+               class="nav-item">
+
+                Categories
+
+            </a>
+
+
+            <a href="#settings"
+               class="nav-item">
+
+                Settings
+
+            </a>
+
+        </nav>
+
+
+        <a
+            class="back-link"
+            href="index.html"
+        >
+
+            ← Back to website
+
+        </a>
+
+    </aside>
+
+
+
+    <!-- =================================================
+         MAIN
+    ================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- HEADER -->
+
+        <header class="page-header">
+
+            <div>
+
+                <p class="eyebrow">
+                    LUNA COFFEE
+                </p>
+
+                <h2>
+                    Admin Panel
+                </h2>
+
+                <p class="header-description">
+                    Manage your menu and website.
+                </p>
+
+            </div>
+
+
+            <div class="connection-status">
+
+                <span class="status-dot"></span>
+
+                <span id="connection-text">
+                    Connecting...
+                </span>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =================================================
+             MENU PREVIEW
+        ================================================== -->
+
+        <section
+            class="panel"
+            id="menu-preview"
+        >
+
+            <div class="panel-header">
+
+                <p class="section-label">
+                    MENU PREVIEW
+                </p>
+
+                <h3>
+                    Homepage Menu Preview
+                </h3>
+
+                <p class="panel-description">
+                    Choose the three products that appear in the
+                    menu preview on the homepage.
+                </p>
+
+            </div>
+
+
+            <div class="preview-grid">
+
+
+                <!-- PREVIEW 1 -->
+
+                <div class="preview-item">
+
+                    <div class="preview-number">
+                        01
+                    </div>
+
+                    <div>
+
+                        <label>
+                            First preview product
+                        </label>
+
+                        <select id="preview-product-1">
+
+                            <option value="">
+                                Select product
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PREVIEW 2 -->
+
+                <div class="preview-item">
+
+                    <div class="preview-number">
+                        02
+                    </div>
+
+                    <div>
+
+                        <label>
+                            Second preview product
+                        </label>
+
+                        <select id="preview-product-2">
+
+                            <option value="">
+                                Select product
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PREVIEW 3 -->
+
+                <div class="preview-item">
+
+                    <div class="preview-number">
+                        03
+                    </div>
+
+                    <div>
+
+                        <label>
+                            Third preview product
+                        </label>
+
+                        <select id="preview-product-3">
+
+                            <option value="">
+                                Select product
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="preview-note">
+
+                These three products are the featured items
+                shown before <strong>View Full Menu</strong>
+                on your homepage.
+
+            </div>
+
+
+            <div style="margin-top:25px; max-width:220px;">
+
+                <button
+                    id="save-preview-button"
+                    class="primary-button"
+                    type="button"
+                >
+
+                    Save Preview
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             PRODUCTS
+        ================================================== -->
+
+        <section
+            class="panel"
+            id="products"
+        >
+
+            <div class="panel-header">
+
+                <p class="section-label">
+                    PRODUCTS
+                </p>
+
+                <h3>
+                    Product Manager
+                </h3>
+
+                <p class="panel-description">
+                    Edit, add, or remove products from your menu.
+                </p>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="product">
+                    Select a product
+                </label>
+
+                <select id="product">
+
+                    <option value="">
+                        Loading products...
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label for="product-name">
+                        Product name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="product-name"
+                        placeholder="Product name"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="product-category">
+                        Category
+                    </label>
+
+                    <select id="product-category">
+
+                        <option value="">
+                            Select category
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="product-price">
+                        Price
+                    </label>
+
+                    <input
+                        type="number"
+                        id="product-price"
+                        step="0.01"
+                        min="0"
+                        placeholder="4.50"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="product-description">
+                    Description
+                </label>
+
+                <textarea
+                    id="product-description"
+                    placeholder="Describe the product..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="image-section">
+
+                <div>
+
+                    <label>
+                        Current image
+                    </label>
+
+                    <img
+                        id="current-image"
+                        class="current-image"
+                        alt="Current product image"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label for="image">
+                        Change image
+                    </label>
+
+                    <input
+                        type="file"
+                        id="image"
+                        accept="image/*"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="button-row">
+
+                <button
+                    id="save-product-button"
+                    class="primary-button"
+                    type="button"
+                >
+
+                    Save Changes
+
+                </button>
+
+
+                <button
+                    id="delete-product-button"
+                    class="danger-button"
+                    type="button"
+                >
+
+                    Delete Product
+
+                </button>
+
+            </div>
+
+
+
+            <!-- ADD PRODUCT -->
+
+            <div
+                style="
+                    margin-top:45px;
+                    padding-top:35px;
+                    border-top:1px solid #E7E0D7;
+                "
+            >
+
+                <div class="panel-header">
+
+                    <p class="section-label">
+                        NEW PRODUCT
+                    </p>
+
+                    <h3>
+                        Add a product
+                    </h3>
+
+                </div>
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label for="new-product-name">
+                            Product name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="new-product-name"
+                            placeholder="e.g. Matcha Latte"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="new-product-category">
+                            Category
+                        </label>
+
+                        <select id="new-product-category">
+
+                            <option value="">
+                                Select category
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="new-product-price">
+                            Price
+                        </label>
+
+                        <input
+                            type="number"
+                            id="new-product-price"
+                            step="0.01"
+                            min="0"
+                            placeholder="5.00"
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="new-product-description">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="new-product-description"
+                        placeholder="Describe the new product..."
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="new-image">
+                        Product image
+                    </label>
+
+                    <input
+                        type="file"
+                        id="new-image"
+                        accept="image/*"
+                    >
+
+                </div>
+
+
+                <button
+                    id="add-product-button"
+                    class="primary-button"
+                    type="button"
+                >
+
+                    Add Product
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             CATEGORIES
+        ================================================== -->
+
+        <section
+            class="panel"
+            id="categories"
+        >
+
+            <div class="panel-header">
+
+                <p class="section-label">
+                    CATEGORIES
+                </p>
+
+                <h3>
+                    Category Manager
+                </h3>
+
+                <p class="panel-description">
+                    Create and manage the categories used by your products.
+                </p>
+
+            </div>
+
+
+            <div class="category-grid">
+
+
+                <div>
+
+
+                    <div class="form-group">
+
+                        <label for="category-name">
+                            Category name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="category-name"
+                            placeholder="e.g. Seasonal Drinks"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="category-slug">
+                            Slug
+                        </label>
+
+                        <input
+                            type="text"
+                            id="category-slug"
+                            placeholder="seasonal-drinks"
+                        >
+
+                    </div>
+
+
+                    <div class="button-row">
+
+                        <button
+                            id="save-category-button"
+                            class="primary-button"
+                            type="button"
+                        >
+
+                            Add Category
+
+                        </button>
+
+
+                        <button
+                            id="cancel-category-button"
+                            class="danger-button"
+                            type="button"
+                        >
+
+                            Cancel
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <div>
+
+                    <label>
+                        Existing categories
+                    </label>
+
+
+                    <div
+                        id="category-list"
+                        class="category-list"
+                    >
+
+                        <p
+                            style="
+                                color:#8A837B;
+                                font-size:12px;
+                            "
+                        >
+
+                            Loading categories...
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             SETTINGS
+        ================================================== -->
+
+        <section
+            class="panel"
+            id="settings"
+        >
+
+            <div class="panel-header">
+
+                <p class="section-label">
+                    SETTINGS
+                </p>
+
+                <h3>
+                    Cafe Settings
+                </h3>
+
+                <p class="panel-description">
+                    Manage the information displayed across your website.
+                </p>
+
+            </div>
+
+
+
+            <!-- CAFE INFORMATION -->
+
+            <div class="settings-section">
+
+                <h4 class="settings-title">
+                    Cafe Information
+                </h4>
+
+                <p class="settings-description">
+                    Basic information about LUNA Coffee.
+                </p>
+
+
+                <!-- CAFE NAME REMOVED -->
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label for="setting-phone">
+                            Phone
+                        </label>
+
+                        <input
+                            type="text"
+                            id="setting-phone"
+                            placeholder="+90 ..."
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="setting-email">
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="setting-email"
+                            placeholder="hello@lunacoffee.com"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="setting-address">
+                            Address
+                        </label>
+
+                        <input
+                            type="text"
+                            id="setting-address"
+                            placeholder="Cafe address"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- OPENING HOURS -->
+
+            <div class="settings-section">
+
+                <h4 class="settings-title">
+                    Opening Hours
+                </h4>
+
+                <p class="settings-description">
+                    Set the opening hours displayed on your website.
+                </p>
+
+
+                <div class="hours-grid">
+
+
+                    <div class="hours-day">
+                        Monday – Friday
+                    </div>
+
+
+                    <div class="hours-inputs">
+
+                        <input
+                            type="text"
+                            id="hours-weekday-open"
+                            placeholder="08:00"
+                        >
+
+                        <input
+                            type="text"
+                            id="hours-weekday-close"
+                            placeholder="22:00"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="hours-grid"
+                    style="margin-top:15px;"
+                >
+
+                    <div class="hours-day">
+                        Saturday – Sunday
+                    </div>
+
+
+                    <div class="hours-inputs">
+
+                        <input
+                            type="text"
+                            id="hours-weekend-open"
+                            placeholder="09:00"
+                        >
+
+                        <input
+                            type="text"
+                            id="hours-weekend-close"
+                            placeholder="23:00"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SOCIAL MEDIA -->
+
+            <div class="settings-section">
+
+                <h4 class="settings-title">
+                    Social Media
+                </h4>
+
+                <p class="settings-description">
+                    Add the social media links displayed on your website.
+                </p>
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label for="setting-instagram">
+                            Instagram
+                        </label>
+
+                        <input
+                            type="text"
+                            id="setting-instagram"
+                            placeholder="@lunacoffee"
+                        >
+
+                    </div>
+
+
+                    <!-- FACEBOOK REMOVED -->
+
+
+                    <div class="form-group">
+
+                        <label for="setting-website">
+                            Website
+                        </label>
+
+                        <input
+                            type="text"
+                            id="setting-website"
+                            placeholder="lunacoffee.com"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <button
+                id="save-settings-button"
+                class="primary-button settings-save"
+                type="button"
+            >
+
+                Save Settings
+
+            </button>
+
+        </section>
+
+
+
+        <p id="status"></p>
+
+    </main>
+
+</div>
+
+
+
+<!-- =================================================
+     CONFIRM MODAL
+================================================== -->
+
+<div
+    class="luna-modal-overlay"
+    id="luna-confirm-overlay"
+    aria-hidden="true"
+>
+
+    <div class="luna-modal">
+
+        <p class="luna-modal-label">
+            LUNA COFFEE
+        </p>
+
+        <h3>
+            Are you sure?
+        </h3>
+
+        <p
+            class="luna-modal-message"
+            id="luna-confirm-message"
+        ></p>
+
+
+        <div class="luna-modal-actions">
+
+            <button
+                type="button"
+                class="luna-modal-button luna-modal-cancel"
+                id="luna-confirm-cancel"
+            >
+
+                Cancel
+
+            </button>
+
+
+            <button
+                type="button"
+                class="luna-modal-button luna-modal-confirm"
+                id="luna-confirm-ok"
+            >
+
+                Delete
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+ /*=====================================================
+       SUPABASE CONNECTION
+    ===================================================== */
+
+    const supabaseUrl =
+        "https://xrhdbxsawcdwrvcguojy.supabase.co";
+
+
+    const supabaseKey =
+        "sb_publishable_2Ev1ejVBz_q-tqkc76sSlA_A7fa4gc-";
+
+
+    const supabaseClient =
+        window.supabase.createClient(
+            supabaseUrl,
+            supabaseKey
+        );
+
+
+       /* =====================================================
+   ADMIN ACCESS PROTECTION
+===================================================== */
+
+async function protectAdminPanel() {
+
+    const {
+        data: { session },
+        error
+    } = await supabaseClient.auth.getSession();
+
+    console.log("CURRENT SESSION:", session);
+
+    if (error || !session) {
+        window.location.replace("./login.html");
+        return false;
+    }
+
+    const adminEmail = "luna.coffeeeee@gmail.com";
+
+    if (
+        !session.user.email ||
+        session.user.email.toLowerCase() !== adminEmail.toLowerCase()
+    ) {
+        await supabaseClient.auth.signOut();
+        window.location.replace("./login.html");
+        return false;
+    }
+
+    return true;
+}
+
+    const status =
+        document.getElementById("status");
+
+
+    const connectionText =
+        document.getElementById(
+            "connection-text"
+        );
+   
+
+   
+    /* =====================================================
+       GLOBAL STATE
+    ===================================================== */
+
+    let categories = [];
+
+    let editingCategorySlug = null;
+
+    let allProducts = [];
+
+
+
+    /* =====================================================
+       SYNC HOOKS
+       
+       IMPORTANT:
+       These hooks do NOT write JSON files yet.
+
+       They are simply centralized points where the
+       future Sync System can be connected.
+
+       Future flow:
+
+       Admin
+          ↓
+       Supabase
+          ↓
+       Sync System
+          ↓
+       JSON files
+          ↓
+       Public website
+    ===================================================== */
+
+    const syncHooks = {
+
+        async products() {
+
+            console.log(
+                "[SYNC] Products changed. Sync hook ready."
+            );
+
+        },
+
+
+        async categories() {
+
+            console.log(
+                "[SYNC] Categories changed. Sync hook ready."
+            );
+
+        },
+
+
+        async menuPreview() {
+
+            console.log(
+                "[SYNC] Menu preview changed. Sync hook ready."
+            );
+
+        },
+
+
+        async settings() {
+
+            console.log(
+                "[SYNC] Settings changed. Sync hook ready."
+            );
+
+        }
+
+    };
+
+
+    async function triggerSync(type) {
+
+        try {
+
+            if (
+                syncHooks[type] &&
+                typeof syncHooks[type] === "function"
+            ) {
+
+                await syncHooks[type]();
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                `[SYNC] ${type} sync hook failed:`,
+                error
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       STATUS
+    ===================================================== */
+
+    let statusTimer;
+
+
+    function showStatus(message) {
+
+        if (!status) return;
+
+
+        status.textContent = message;
+
+        status.classList.add("show");
+
+        clearTimeout(statusTimer);
+
+        statusTimer = setTimeout(() => {
+
+            status.classList.remove("show");
+
+        }, 3000);
+
+    }
+
+
+
+    /* =====================================================
+       TEST SUPABASE
+    ===================================================== */
+
+    async function testSupabase() {
+
+        try {
+
+            const { error } =
+                await supabaseClient
+                    .from("products")
+                    .select("id")
+                    .limit(1);
+
+
+            if (error) {
+
+                console.error(error);
+
+                if (connectionText) {
+
+                    connectionText.textContent =
+                        "Connection error";
+
+                }
+
+                return;
+
+            }
+
+
+            if (connectionText) {
+
+                connectionText.textContent =
+                    "Connected";
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+            if (connectionText) {
+
+                connectionText.textContent =
+                    "Connection error";
+
+            }
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       LOAD CATEGORIES
+    ===================================================== */
+
+    async function loadCategories() {
+
+        try {
+
+            const { data, error } =
+                await supabaseClient
+                    .from("Categories")
+                    .select("id, name, slug")
+                    .order("id", {
+                        ascending: true
+                    });
+
+
+            if (error) {
+
+                console.error(error);
+
+                showStatus(
+                    "Could not load categories."
+                );
+
+                return;
+
+            }
+
+
+            categories = data || [];
+
+
+            populateCategorySelects();
+
+            renderCategoryList();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showStatus(
+                "Could not load categories."
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       CATEGORY SELECTS
+    ===================================================== */
+
+    function populateCategorySelects() {
+
+        const selects = [
+
+            document.getElementById(
+                "product-category"
+            ),
+
+            document.getElementById(
+                "new-product-category"
+            )
+
+        ];
+
+
+        selects.forEach(select => {
+
+            if (!select) return;
+
+
+            const currentValue =
+                select.value;
+
+
+            select.innerHTML =
+                '<option value="">Select category</option>';
+
+
+            categories.forEach(category => {
+
+                const option =
+                    document.createElement("option");
+
+
+                option.value =
+                    category.slug;
+
+
+                option.textContent =
+                    category.name;
+
+
+                select.appendChild(option);
+
+            });
+
+
+            if (
+                currentValue &&
+                categories.some(
+                    category =>
+                        category.slug === currentValue
+                )
+            ) {
+
+                select.value =
+                    currentValue;
+
+            }
+
+        });
+
+    }
+
+
+
+    /* =====================================================
+       CATEGORY LIST
+    ===================================================== */
+
+    function renderCategoryList() {
+
+        const list =
+            document.getElementById(
+                "category-list"
+            );
+
+
+        if (!list) return;
+
+
+        if (!categories.length) {
+
+            list.innerHTML = `
+                <p style="color:#8A837B;font-size:12px;">
+                    No categories found.
+                </p>
+            `;
+
+            return;
+
+        }
+
+
+        list.innerHTML = "";
+
+
+        categories.forEach(category => {
+
+            const item =
+                document.createElement("div");
+
+
+            item.className =
+                "category-item";
+
+
+            item.innerHTML = `
+
+                <div class="category-info">
+
+                    <strong>
+                        ${escapeHtml(category.name)}
+                    </strong>
+
+                    <span>
+                        ${escapeHtml(category.slug)}
+                    </span>
+
+                </div>
+
+                <div class="category-actions">
+
+                    <button
+                        class="small-button"
+                        type="button"
+                        data-action="edit"
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        class="small-button small-delete"
+                        type="button"
+                        data-action="delete"
+                    >
+                        Delete
+                    </button>
+
+                </div>
+            `;
+
+
+            list.appendChild(item);
+
+
+            item
+                .querySelector(
+                    '[data-action="edit"]'
+                )
+                .addEventListener(
+                    "click",
+                    () => editCategory(
+                        category.slug
+                    )
+                );
+
+
+            item
+                .querySelector(
+                    '[data-action="delete"]'
+                )
+                .addEventListener(
+                    "click",
+                    () => deleteCategory(
+                        category.slug
+                    )
+                );
+
+        });
+
+    }
+
+
+
+    /* =====================================================
+       PRODUCT REFERENCES
+    ===================================================== */
+
+    const productSelect =
+        document.getElementById(
+            "product"
+        );
+
+
+    const productNameInput =
+        document.getElementById(
+            "product-name"
+        );
+
+
+    const productCategorySelect =
+        document.getElementById(
+            "product-category"
+        );
+
+
+    const productPriceInput =
+        document.getElementById(
+            "product-price"
+        );
+
+
+    const productDescriptionInput =
+        document.getElementById(
+            "product-description"
+        );
+
+
+    const currentImage =
+        document.getElementById(
+            "current-image"
+        );
+
+
+    const imageInput =
+        document.getElementById(
+            "image"
+        );
+
+
+
+    /* =====================================================
+       PRICE VALIDATION
+    ===================================================== */
+
+    function normalizePrice(value) {
+
+        const cleaned =
+            String(value || "")
+                .replace("€", "")
+                .trim();
+
+
+        const number =
+            Number(cleaned);
+
+
+        if (
+            !Number.isFinite(number) ||
+            number < 0
+        ) {
+
+            return null;
+
+        }
+
+
+        return number;
+
+    }
+
+
+
+    /* =====================================================
+       LOAD PRODUCTS
+    ===================================================== */
+
+    async function loadProducts() {
+
+        try {
+
+            const { data, error } =
+                await supabaseClient
+                    .from("products")
+                    .select("*")
+                    .order("name", {
+                        ascending: true
+                    });
+
+
+            if (error) {
+
+                console.error(error);
+
+                if (productSelect) {
+
+                    productSelect.innerHTML =
+                        '<option value="">Database error</option>';
+
+                }
+
+                return;
+
+            }
+
+
+            allProducts = data || [];
+
+
+            if (!productSelect) return;
+
+
+            productSelect.innerHTML =
+                '<option value="">Choose a product</option>';
+
+
+            allProducts.forEach(product => {
+
+                const option =
+                    document.createElement("option");
+
+
+                option.value =
+                    product.id;
+
+
+                option.textContent =
+                    product.name;
+
+
+                productSelect.appendChild(option);
+
+            });
+
+
+            await populatePreviewSelects();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showStatus(
+                "Could not load products."
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       PREVIEW SELECTS
+    ===================================================== */
+
+    async function populatePreviewSelects() {
+
+        const selects = [
+
+            document.getElementById(
+                "preview-product-1"
+            ),
+
+            document.getElementById(
+                "preview-product-2"
+            ),
+
+            document.getElementById(
+                "preview-product-3"
+            )
+
+        ];
+
+
+        selects.forEach(select => {
+
+            if (!select) return;
+
+
+            select.innerHTML =
+                '<option value="">Select product</option>';
+
+
+            allProducts.forEach(product => {
+
+                const option =
+                    document.createElement("option");
+
+
+                option.value =
+                    product.id;
+
+
+                option.textContent =
+                    product.name;
+
+
+                select.appendChild(option);
+
+            });
+
+        });
+
+
+        await loadSavedPreview();
+
+    }
+
+
+
+    /* =====================================================
+       MENU PREVIEW - SUPABASE VERSION
+    ===================================================== */
+
+    async function loadSavedPreview() {
+
+        try {
+
+            const { data, error } =
+                await supabaseClient
+                    .from("menu_preview")
+                    .select("position, product_id")
+                    .order("position", {
+                        ascending: true
+                    });
+
+
+            if (error) {
+
+                console.error(error);
+
+                showStatus(
+                    "Could not load menu preview."
+                );
+
+                return;
+
+            }
+
+
+            const selects = [
+
+                document.getElementById(
+                    "preview-product-1"
+                ),
+
+                document.getElementById(
+                    "preview-product-2"
+                ),
+
+                document.getElementById(
+                    "preview-product-3"
+                )
+
+            ];
+
+
+            selects.forEach((select, index) => {
+
+                if (!select) return;
+
+
+                const previewItem =
+                    (data || []).find(
+                        item =>
+                            Number(item.position) ===
+                            index + 1
+                    );
+
+
+                select.value =
+                    previewItem &&
+                    previewItem.product_id
+                        ? String(
+                            previewItem.product_id
+                        )
+                        : "";
+
+            });
+
+        } catch (error) {
+
+            console.error(error);
+
+            showStatus(
+                "Could not load menu preview."
+            );
+
+        }
+
+    }
+
+
+
+    const savePreviewButton =
+        document.getElementById(
+            "save-preview-button"
+        );
+
+
+    if (savePreviewButton) {
+
+        savePreviewButton.addEventListener(
+            "click",
+            saveMenuPreview
+        );
+
+    }
+
+/* =====================================================
+   CLEAR MENU PREVIEW FORM
+===================================================== */
+
+function clearMenuPreviewForm() {
+
+    const selects = [
+
+        document.getElementById("preview-product-1"),
+        document.getElementById("preview-product-2"),
+        document.getElementById("preview-product-3")
+
+    ];
+
+    selects.forEach(select => {
+
+        if (!select) return;
+
+        select.value = "";
+
+        select.dispatchEvent(
+            new Event("change", {
+                bubbles: true
+            })
+        );
+
+    });
+
+}
+
+
+
+    /* =====================================================
+       SAVE MENU PREVIEW
+    ===================================================== */
+
+    async function saveMenuPreview() {
+
+        const selects = [
+
+            document.getElementById(
+                "preview-product-1"
+            ),
+
+            document.getElementById(
+                "preview-product-2"
+            ),
+
+            document.getElementById(
+                "preview-product-3"
+            )
+
+        ];
+
+
+        const values =
+            selects.map(
+                select =>
+                    select ? select.value : ""
+            );
+
+
+        if (
+            !values[0] ||
+            !values[1] ||
+            !values[2]
+        ) {
+
+            showStatus(
+                "Please select all three preview products."
+            );
+
+            return;
+
+        }
+
+
+        const unique =
+            new Set(values);
+
+
+        if (unique.size !== 3) {
+
+            showStatus(
+                "Please choose three different products."
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            showStatus(
+                "Saving menu preview..."
+            );
+
+
+            const updates = [
+
+                {
+                    position: 1,
+                    product_id: Number(values[0])
+                },
+
+                {
+                    position: 2,
+                    product_id: Number(values[1])
+                },
+
+                {
+                    position: 3,
+                    product_id: Number(values[2])
+                }
+
+            ];
+
+
+            const { error } =
+                await supabaseClient
+                    .from("menu_preview")
+                    .upsert(
+                        updates,
+                        {
+                            onConflict: "position"
+                        }
+                    );
+
+
+            if (error) {
+
+                console.error(error);
+
+                showStatus(
+                    "Could not save menu preview."
+                );
+
+                return;
+
+            }
+
+
+            await triggerSync(
+                "menuPreview"
+            );
+
+
+            showStatus(
+                "Menu preview saved successfully!"
+            );
+
+            clearMenuPreviewForm();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showStatus(
+                "Could not save menu preview."
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       LOAD SELECTED PRODUCT
+    ===================================================== */
+
+    if (productSelect) {
+
+        productSelect.addEventListener(
+            "change",
+            loadSelectedProduct
+        );
+
+    }
+
+
+    async function loadSelectedProduct() {
+
+        const id =
+            productSelect
+                ? productSelect.value
+                : "";
+
+
+        if (!id) {
+
+            clearProductFields();
+
+            return;
+
+        }
+
+
+        try {
+
+            const { data, error } =
+                await supabaseClient
+                    .from("products")
+                    .select("*")
+                    .eq("id", id)
+                    .single();
+
+
+            if (error) {
+
+                console.error(error);
+
+                showStatus(
+                    "Could not load product."
+                );
+
+                return;
+
+            }
+
+
+            /* =========================
+               PRODUCT NAME
+            ========================== */
+
+            if (productNameInput) {
+
+                productNameInput.value =
+                    data.name || "";
+
+            }
+
+
+            /* =========================
+               CATEGORY
+            ========================== */
+
+            const productCategory =
+                String(
+                    data.category || ""
+                )
+                    .trim()
+                    .toLowerCase();
+
+
+            const matchingCategory =
+                categories.find(
+                    category =>
+                        String(
+                            category.slug || ""
+                        )
+                            .trim()
+                            .toLowerCase()
+                        ===
+                        productCategory
+                );
+
+
+            if (productCategorySelect) {
+
+                if (matchingCategory) {
+
+                    productCategorySelect.value =
+                        matchingCategory.slug;
+
+                } else {
+
+                    productCategorySelect.value =
+                        "";
+
+                }
+
+
+                productCategorySelect.dispatchEvent(
+                    new Event(
+                        "change",
+                        {
+                            bubbles: true
+                        }
+                    )
+                );
+
+            }
+
+
+            /* =========================
+               PRICE
+            ========================== */
+
+            if (productPriceInput) {
+
+                productPriceInput.value =
+                    String(data.price || "")
+                        .replace("€", "")
+                        .trim();
+
+            }
+
+
+            /* =========================
+               DESCRIPTION
+            ========================== */
+
+            if (productDescriptionInput) {
+
+                productDescriptionInput.value =
+                    data.description || "";
+
+            }
+
+
+            /* =========================
+               IMAGE
+            ========================== */
+
+            if (currentImage) {
+
+                if (data.image_url) {
+
+                    currentImage.src =
+                        data.image_url;
+
+                } else {
+
+                    currentImage.removeAttribute(
+                        "src"
+                    );
+
+                }
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+            showStatus(
+                "Could not load product."
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       CLEAR PRODUCT
+    ===================================================== */
+
+    function clearProductFields() {
+
+        if (productNameInput) {
+
+            productNameInput.value = "";
+
+        }
+
+
+        if (productCategorySelect) {
+
+            productCategorySelect.value = "";
+
+            productCategorySelect.dispatchEvent(
+                new Event(
+                    "change",
+                    {
+                        bubbles: true
+                    }
+                )
+            );
+
+        }
+
+
+        if (productPriceInput) {
+
+            productPriceInput.value = "";
+
+        }
+
+
+        if (productDescriptionInput) {
+
+            productDescriptionInput.value = "";
+
+        }
+
+
+        if (currentImage) {
+
+            currentImage.removeAttribute(
+                "src"
+            );
+
+        }
+
+
+        if (imageInput) {
+
+            imageInput.value = "";
+
+        }
+
+    }
+
+
+    function clearProductForm() {
+
+        if (productSelect) {
+
+            productSelect.value = "";
+
+            productSelect.dispatchEvent(
+                new Event(
+                    "change",
+                    {
+                        bubbles: true
+                    }
+                )
+            );
+
+        }
+
+
+        clearProductFields();
+
+    }
+
+
+
+    /* =====================================================
+       SAVE PRODUCT
+    ===================================================== */
+
+    const saveProductButton =
+        document.getElementById(
+            "save-product-button"
+        );
+
+
+    if (saveProductButton) {
+
+        saveProductButton.addEventListener(
+            "click",
+            saveProduct
+        );
+
+    }
+
+
+    async function saveProduct() {
+
+        const id =
+            productSelect
+                ? productSelect.value
+                : "";
+
+
+        if (!id) {
+
+            showStatus(
+                "Please select a product."
+            );
+
+            return;
+
+        }
+
+
+        const name =
+            productNameInput
+                ? productNameInput.value.trim()
+                : "";
+
+
+        const category =
+            productCategorySelect
+                ? productCategorySelect.value
+                : "";
+
+
+        const price =
+            productPriceInput
+                ? productPriceInput.value.trim()
+                : "";
+
+
+        const description =
+            productDescriptionInput
+                ? productDescriptionInput.value.trim()
+                : "";
+
+
+        const newImage =
+            imageInput &&
+            imageInput.files
+                ? imageInput.files[0]
+                : null;
+
+
+        if (
+            !name ||
+            !category ||
+            !price ||
+            !description
+        ) {
+
+            showStatus(
+                "Please complete all fields."
+            );
+
+            return;
+
+        }
+
+
+        const numericPrice =
+            normalizePrice(price);
+
+
+        if (numericPrice === null) {
+
+            showStatus(
+                "Please enter a valid price."
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            showStatus(
+                "Saving changes..."
+            );
+
+
+            const oldImageUrl =
+                currentImage
+                    ? currentImage.getAttribute("src") || ""
+                    : "";
+
+
+            let imageUrl =
+                oldImageUrl;
+
+
+            /* =========================
+               UPLOAD NEW IMAGE
+            ========================== */
+
+            if (newImage) {
+
+                showStatus(
+                    "Uploading new image..."
+                );
+
+
+                const fileName =
+                    `${Date.now()}-${newImage.name}`;
+
+
+                const { error: uploadError } =
+                    await supabaseClient
+                        .storage
+                        .from("products")
+                        .upload(
+                            fileName,
+                            newImage
+                        );
+
+
+                if (uploadError) {
+
+                    console.error(
+                        uploadError
+                    );
+
+                    showStatus(
+                        "Image upload failed."
+                    );
+
+                    return;
+
+                }
+
+
+                const { data: imageData } =
+                    supabaseClient
+                        .storage
+                        .from("products")
+                        .getPublicUrl(
+                            fileName
+                        );
+
+
+                imageUrl =
+                    imageData.publicUrl;
+
+            }
+
+
+            /* =========================
+               UPDATE PRODUCT
+            ========================== */
+
+            const { error: updateError } =
+                await supabaseClient
+                    .from("products")
+                    .update({
+
+                        name,
+
+                        category,
+
+                        price:
+                            `€${numericPrice.toFixed(2)}`,
+
+                        description,
+
+                        image_url:
+                            imageUrl
+
+                    })
+                    .eq(
+                        "id",
+                        id
+                    );
+
+
+            if (updateError) {
+
+                console.error(
+                    updateError
+                );
+
+                showStatus(
+                    "Product could not be updated."
+                );
+
+                return;
+
+            }
+
+
+            /* =========================
+               DELETE OLD IMAGE
+            ========================== */
+
+            if (
+                newImage &&
+                oldImageUrl &&
+                oldImageUrl.includes(
+                    "/storage/v1/object/public/products/"
+                )
+            ) {
+
+                const marker =
+                    "/storage/v1/object/public/products/";
+
+
+                const markerIndex =
+                    oldImageUrl.indexOf(
+                        marker
+                    );
+
+
+                if (markerIndex !== -1) {
+
+                    const oldFilePath =
+                        decodeURIComponent(
+                            oldImageUrl.substring(
+                                markerIndex +
+                                marker.length
+                            )
+                        );
+
+
+                    const {
+                        error: removeError
+                    } =
+                        await supabaseClient
+                            .storage
+                            .from("products")
+                            .remove([
+                                oldFilePath
+                            ]);
+
+
+                    if (removeError) {
+
+                        console.error(
+                            "Old image could not be removed:",
+                            removeError
+                        );
+
+                    }
+
+                }
+
+            }
+
+
+            /* =========================
+               TRIGGER SYNC HOOK
+            ========================== */
+
+            await triggerSync(
+                "products"
+            );
+
+
+            showStatus(
+                "Product updated successfully!"
+            );
+
+
+            await loadProducts();
+
+            clearProductForm();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showStatus(
+                "Something went wrong while saving."
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       DELETE PRODUCT
+    ===================================================== */
+
+    const deleteProductButton =
+        document.getElementById(
+            "delete-product-button"
+        );
+
+
+    if (deleteProductButton) {
+
+        deleteProductButton.addEventListener(
+            "click",
+            deleteProduct
+        );
+
+    }
+
+
+    async function deleteProduct() {
+
+        const id =
+            productSelect
+                ? productSelect.value
+                : "";
+
+
+        if (!id) {
+
+            showStatus(
+                "Please select a product to delete."
+            );
+
+            return;
+
+        }
+
+
+        const selectedOption =
+            productSelect.options[
+                productSelect.selectedIndex
+            ];
+
+
+        const name =
+            selectedOption
+                ? selectedOption.textContent
+                : "this product";
+
+
+        const confirmed =
+            await showLunaConfirm(
+                `Are you sure you want to delete "${name}"?`
+            );
+
+
+        if (!confirmed) return;
+
+
+        try {
+
+            showStatus(
+                "Deleting product..."
+            );
+
+
+            /* =========================
+               GET PRODUCT
+            ========================== */
+
+            const {
+                data: product,
+                error: getError
+            } =
+                await supabaseClient
+                    .from("products")
+                    .select("*")
+                    .eq("id", id)
+                    .single();
+
+
+            if (getError) {
+
+                console.error(getError);
+
+                showStatus(
+                    "Could not find product."
+                );
+
+                return;
+
+            }
+
+
+            /* =========================
+               DELETE DATABASE ROW
+            ========================== */
+
+            const { error: deleteError } =
+                await supabaseClient
+                    .from("products")
+                    .delete()
+                    .eq("id", id);
+
+
+            if (deleteError) {
+
+                console.error(
+                    deleteError
+                );
+
+                showStatus(
+                    "Product could not be deleted."
+                );
+
+                return;
+
+            }
+
+
+            /* =========================
+               DELETE STORAGE IMAGE
+            ========================== */
+
+            if (product.image_url) {
+
+                const marker =
+                    "/storage/v1/object/public/products/";
+
+
+                const markerIndex =
+                    product.image_url.indexOf(
+                        marker
+                    );
+
+
+                if (markerIndex !== -1) {
+
+                    const filePath =
+                        decodeURIComponent(
+                            product.image_url.substring(
+                                markerIndex +
+                                marker.length
+                            )
+                        );
+
+
+                    const {
+                        error: removeError
+                    } =
+                        await supabaseClient
+                            .storage
+                            .from("products")
+                            .remove([
+                                filePath
+                            ]);
+
+
+                    if (removeError) {
+
+                        console.error(
+                            "Product image could not be removed:",
+                            removeError
+                        );
+
+                    }
+
+                }
+
+            }
+
+
+            /* =========================
+               TRIGGER SYNC HOOK
+            ========================== */
+
+            await triggerSync(
+                "products"
+            );
+
+
+            showStatus(
+                "Product deleted successfully!"
+            );
+
+
+            clearProductForm();
+
+
+            await loadProducts();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showStatus(
+                "Something went wrong while deleting."
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       ADD PRODUCT
+    ===================================================== */
+
+    const addProductButton =
+        document.getElementById(
+            "add-product-button"
+        );
+
+
+    if (addProductButton) {
+
+        addProductButton.addEventListener(
+            "click",
+            addProduct
+        );
+
+    }
+
+
+    async function addProduct() {
+
+        const nameInput =
+            document.getElementById(
+                "new-product-name"
+            );
+
+
+        const categoryInput =
+            document.getElementById(
+                "new-product-category"
+            );
+
+
+        const priceInput =
+            document.getElementById(
+                "new-product-price"
+            );
+
+
+        const descriptionInput =
+            document.getElementById(
+                "new-product-description"
+            );
+
+
+        const imageInputNew =
+            document.getElementById(
+                "new-image"
+            );
+
+
+        const name =
+            nameInput
+                ? nameInput.value.trim()
+                : "";
+
+
+        const category =
+            categoryInput
+                ? categoryInput.value
+                : "";
+
+
+        const price =
+            priceInput
+                ? priceInput.value.trim()
+                : "";
+
+
+        const description =
+            descriptionInput
+                ? descriptionInput.value.trim()
+                : "";
+
+
+        const imageFile =
+            imageInputNew &&
+            imageInputNew.files
+                ? imageInputNew.files[0]
+                : null;
+
+
+        if (
+            !name ||
+            !category ||
+            !price ||
+            !description ||
+            !imageFile
+        ) {
+
+            showStatus(
+                "Please complete all product fields."
+            );
+
+            return;
+
+        }
+
+
+        const numericPrice =
+            normalizePrice(price);
+
+
+        if (numericPrice === null) {
+
+            showStatus(
+                "Please enter a valid price."
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            showStatus(
+                "Uploading image..."
+            );
+
+
+            const fileName =
+                `${Date.now()}-${imageFile.name}`;
+
+
+            const { error: uploadError } =
+                await supabaseClient
+                    .storage
+                    .from("products")
+                    .upload(
+                        fileName,
+                        imageFile
+                    );
+
+
+            if (uploadError) {
+
+                console.error(
+                    uploadError
+                );
+
+                showStatus(
+                    "Image upload failed."
+                );
+
+                return;
+
+            }
+
+
+            const { data: imageData } =
+                supabaseClient
+                    .storage
+                    .from("products")
+                    .getPublicUrl(
+                        fileName
+                    );
+
+
+            const imageUrl =
+                imageData.publicUrl;
+
+
+            showStatus(
+                "Saving product..."
+            );
+
+
+            /* =========================
+               INSERT PRODUCT
+            ========================== */
+
+            const { error: insertError } =
+                await supabaseClient
+                    .from("products")
+                    .insert({
+
+                        name,
+
+                        category,
+
+                        price:
+                            `€${numericPrice.toFixed(2)}`,
+
+                        description,
+
+                        image_url:
+                            imageUrl
+
+                    });
+
+
+            if (insertError) {
+
+                console.error(
+                    insertError
+                );
+
+
+                /*
+                   IMPORTANT:
+                   If database insertion fails after
+                   image upload, remove the uploaded
+                   image so we don't leave an orphan file.
+                */
+
+                await supabaseClient
+                    .storage
+                    .from("products")
+                    .remove([
+                        fileName
+                    ]);
+
+
+                showStatus(
+                    "Product could not be saved."
+                );
+
+                return;
+
+            }
+
+
+            /* =========================
+               TRIGGER SYNC HOOK
+            ========================== */
+
+            await triggerSync(
+                "products"
+            );
+
+
+            showStatus(
+                "Product added successfully!"
+            );
+
+
+            if (nameInput) {
+
+                nameInput.value = "";
+
+            }
+
+
+            if (categoryInput) {
+
+                categoryInput.value = "";
+
+                categoryInput.dispatchEvent(
+                    new Event(
+                        "change",
+                        {
+                            bubbles: true
+                        }
+                    )
+                );
+
+            }
+
+
+            if (priceInput) {
+
+                priceInput.value = "";
+
+            }
+
+
+            if (descriptionInput) {
+
+                descriptionInput.value = "";
+
+            }
+
+
+            if (imageInputNew) {
+
+                imageInputNew.value = "";
+
+            }
+
+
+            await loadProducts();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showStatus(
+                "Something went wrong while adding the product."
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       CATEGORY REFERENCES
+    ===================================================== */
+
+    const categoryNameInput =
+        document.getElementById(
+            "category-name"
+        );
+
+
+    const categorySlugInput =
+        document.getElementById(
+            "category-slug"
+        );
+
+
+    const saveCategoryButton =
+        document.getElementById(
+            "save-category-button"
+        );
+
+
+    const cancelCategoryButton =
+        document.getElementById(
+            "cancel-category-button"
+        );
+
+
+
+    /* =====================================================
+       AUTO SLUG
+    ===================================================== */
+
+    if (categoryNameInput) {
+
+        categoryNameInput.addEventListener(
+            "input",
+            () => {
+
+                if (editingCategorySlug) {
+
+                    return;
+
+                }
+
+
+                categorySlugInput.value =
+                    categoryNameInput.value
+                        .trim()
+                        .toLowerCase()
+                        .replace(
+                            /[^a-z0-9]+/g,
+                            "-"
+                        )
+                        .replace(
+                            /^-+|-+$/g,
+                            ""
+                        );
+
+            }
+        );
+
+    }
+
+
+
+    /* =====================================================
+       SAVE CATEGORY
+    ===================================================== */
+
+    if (saveCategoryButton) {
+
+        saveCategoryButton.addEventListener(
+            "click",
+            saveCategory
+        );
+
+    }
+
+
+    async function saveCategory() {
+
+        const name =
+            categoryNameInput
+                ? categoryNameInput.value.trim()
+                : "";
+
+
+        const slug =
+            categorySlugInput
+                ? categorySlugInput.value
+                    .trim()
+                    .toLowerCase()
+                : "";
+
+
+        if (!name || !slug) {
+
+            showStatus(
+                "Please enter category name and slug."
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            /* =================================================
+               UPDATE EXISTING CATEGORY
+            ================================================= */
+
+            if (editingCategorySlug) {
+
+                const oldSlug =
+                    editingCategorySlug;
+
+
+                showStatus(
+                    "Updating category..."
+                );
+
+
+                const { error } =
+                    await supabaseClient
+                        .from("Categories")
+                        .update({
+
+                            name,
+
+                            slug
+
+                        })
+                        .eq(
+                            "slug",
+                            oldSlug
+                        );
+
+
+                if (error) {
+
+                    console.error(error);
+
+                    showStatus(
+                        "Category could not be updated."
+                    );
+
+                    return;
+
+                }
+
+
+                /*
+                   IMPORTANT:
+                   Products store the category SLUG.
+
+                   If the category slug changes,
+                   update related products too.
+                */
+
+                if (
+                    oldSlug !== slug
+                ) {
+
+                    const {
+                        error: productUpdateError
+                    } =
+                        await supabaseClient
+                            .from("products")
+                            .update({
+                                category: slug
+                            })
+                            .eq(
+                                "category",
+                                oldSlug
+                            );
+
+
+                    if (productUpdateError) {
+
+                        console.error(
+                            productUpdateError
+                        );
+
+                        showStatus(
+                            "Category updated, but related products could not be updated."
+                        );
+
+                        await loadCategories();
+
+                        return;
+
+                    }
+
+                }
+
+
+                await triggerSync(
+                    "categories"
+                );
+
+
+                if (
+                    oldSlug !== slug
+                ) {
+
+                    await triggerSync(
+                        "products"
+                    );
+
+                }
+
+
+                showStatus(
+                    "Category updated successfully!"
+                );
+
+
+                resetCategoryForm();
+
+
+                await loadCategories();
+
+                await loadProducts();
+
+                return;
+
+            }
+
+
+            /* =================================================
+               ADD NEW CATEGORY
+            ================================================= */
+
+            showStatus(
+                "Adding category..."
+            );
+
+
+            const { error } =
+                await supabaseClient
+                    .from("Categories")
+                    .insert({
+
+                        name,
+
+                        slug
+
+                    });
+
+
+            if (error) {
+
+                console.error(error);
+
+                showStatus(
+                    "Category could not be added."
+                );
+
+                return;
+
+            }
+
+
+            await triggerSync(
+                "categories"
+            );
+
+
+            showStatus(
+                "Category added successfully!"
+            );
+
+
+            resetCategoryForm();
+
+
+            await loadCategories();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showStatus(
+                "Something went wrong while saving the category."
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       EDIT CATEGORY
+    ===================================================== */
+
+    function editCategory(slug) {
+
+        const category =
+            categories.find(
+                item =>
+                    item.slug === slug
+            );
+
+
+        if (!category) return;
+
+
+        editingCategorySlug =
+            category.slug;
+
+
+        if (categoryNameInput) {
+
+            categoryNameInput.value =
+                category.name;
+
+        }
+
+
+        if (categorySlugInput) {
+
+            categorySlugInput.value =
+                category.slug;
+
+        }
+
+
+        if (saveCategoryButton) {
+
+            saveCategoryButton.textContent =
+                "Save Category";
+
+        }
+
+
+        if (categoryNameInput) {
+
+            categoryNameInput.focus();
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       DELETE CATEGORY
+    ===================================================== */
+
+    async function deleteCategory(slug) {
+
+        const category =
+            categories.find(
+                item =>
+                    item.slug === slug
+            );
+
+
+        if (!category) return;
+
+
+        const confirmed =
+            await showLunaConfirm(
+                `Are you sure you want to delete "${category.name}"?`
+            );
+
+
+        if (!confirmed) return;
+
+
+        try {
+
+            showStatus(
+                "Checking category usage..."
+            );
+
+
+            /*
+               Do NOT delete a category that is still
+               assigned to products.
+
+               This prevents broken category references.
+            */
+
+            const {
+                count,
+                error: countError
+            } =
+                await supabaseClient
+                    .from("products")
+                    .select(
+                        "id",
+                        {
+                            count: "exact",
+                            head: true
+                        }
+                    )
+                    .eq(
+                        "category",
+                        slug
+                    );
+
+
+            if (countError) {
+
+                console.error(
+                    countError
+                );
+
+                showStatus(
+                    "Could not check category usage."
+                );
+
+                return;
+
+            }
+
+
+            if (count > 0) {
+
+                showStatus(
+                    `Cannot delete "${category.name}" because ${count} product${count === 1 ? "" : "s"} still use this category.`
+                );
+
+                return;
+
+            }
+
+
+            showStatus(
+                "Deleting category..."
+            );
+
+
+            const { error } =
+                await supabaseClient
+                    .from("Categories")
+                    .delete()
+                    .eq(
+                        "slug",
+                        slug
+                    );
+
+
+            if (error) {
+
+                console.error(error);
+
+                showStatus(
+                    "Category could not be deleted."
+                );
+
+                return;
+
+            }
+
+
+            await triggerSync(
+                "categories"
+            );
+
+
+            showStatus(
+                "Category deleted successfully!"
+            );
+
+
+        
+            
+        
+
+            resetCategoryForm();
+
+            
+
+
+            await loadCategories();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showStatus(
+                "Something went wrong while deleting the category."
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       RESET CATEGORY
+    ===================================================== */
+
+    if (cancelCategoryButton) {
+
+        cancelCategoryButton.addEventListener(
+            "click",
+            resetCategoryForm
+        );
+
+    }
+
+
+    function resetCategoryForm() {
+
+        editingCategorySlug = null;
+
+
+        if (categoryNameInput) {
+
+            categoryNameInput.value = "";
+
+        }
+
+
+        if (categorySlugInput) {
+
+            categorySlugInput.value = "";
+
+        }
+
+
+        if (saveCategoryButton) {
+
+            saveCategoryButton.textContent =
+                "Add Category";
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       CONFIRM MODAL
+    ===================================================== */
+
+    function showLunaConfirm(message) {
+
+        return new Promise(resolve => {
+
+            const overlay =
+                document.getElementById(
+                    "luna-confirm-overlay"
+                );
+
+
+            const messageElement =
+                document.getElementById(
+                    "luna-confirm-message"
+                );
+
+
+            const cancel =
+                document.getElementById(
+                    "luna-confirm-cancel"
+                );
+
+
+            const confirm =
+                document.getElementById(
+                    "luna-confirm-ok"
+                );
+
+
+            if (
+                !overlay ||
+                !messageElement ||
+                !cancel ||
+                !confirm
+            ) {
+
+                resolve(
+                    window.confirm(message)
+                );
+
+                return;
+
+            }
+
+
+            messageElement.textContent =
+                message;
+
+
+            overlay.classList.add(
+                "show"
+            );
+
+
+            overlay.setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+
+            function finish(result) {
+
+                overlay.classList.remove(
+                    "show"
+                );
+
+
+                overlay.setAttribute(
+                    "aria-hidden",
+                    "true"
+                );
+
+
+                confirm.removeEventListener(
+                    "click",
+                    onConfirm
+                );
+
+
+                cancel.removeEventListener(
+                    "click",
+                    onCancel
+                );
+
+
+                overlay.removeEventListener(
+                    "click",
+                    onOverlay
+                );
+
+
+                document.removeEventListener(
+                    "keydown",
+                    onKeyDown
+                );
+
+
+                resolve(result);
+
+            }
+
+
+            function onConfirm() {
+
+                finish(true);
+
+            }
+
+
+            function onCancel() {
+
+                finish(false);
+
+            }
+
+
+            function onOverlay(event) {
+
+                if (
+                    event.target === overlay
+                ) {
+
+                    finish(false);
+
+                }
+
+            }
+
+
+            function onKeyDown(event) {
+
+                if (
+                    event.key === "Escape"
+                ) {
+
+                    finish(false);
+
+                }
+
+            }
+
+
+            confirm.addEventListener(
+                "click",
+                onConfirm
+            );
+
+
+            cancel.addEventListener(
+                "click",
+                onCancel
+            );
+
+
+            overlay.addEventListener(
+                "click",
+                onOverlay
+            );
+
+
+            document.addEventListener(
+                "keydown",
+                onKeyDown
+            );
+
+
+            cancel.focus();
+
+        });
+
+    }
+
+
+
+    /* =====================================================
+       SETTINGS
+    ===================================================== */
+
+    const settingsFields = {
+
+        phone:
+            document.getElementById(
+                "setting-phone"
+            ),
+
+        email:
+            document.getElementById(
+                "setting-email"
+            ),
+
+        address:
+            document.getElementById(
+                "setting-address"
+            ),
+
+        weekdayOpen:
+            document.getElementById(
+                "hours-weekday-open"
+            ),
+
+        weekdayClose:
+            document.getElementById(
+                "hours-weekday-close"
+            ),
+
+        weekendOpen:
+            document.getElementById(
+                "hours-weekend-open"
+            ),
+
+        weekendClose:
+            document.getElementById(
+                "hours-weekend-close"
+            ),
+
+        instagram:
+            document.getElementById(
+                "setting-instagram"
+            ),
+
+        website:
+            document.getElementById(
+                "setting-website"
+            )
+
+    };
+
+
+
+    /* =====================================================
+       LOAD SETTINGS FROM SUPABASE
+    ===================================================== */
+
+    async function loadSettings() {
+
+        try {
+
+            const { data, error } =
+                await supabaseClient
+                    .from("settings")
+                    .select("*")
+                    .order("id", {
+                        ascending: true
+                    })
+                    .limit(1)
+                    .maybeSingle();
+
+
+            if (error) {
+
+                console.error(
+                    "Error loading settings:",
+                    error
+                );
+
+                showStatus(
+                    "Could not load settings."
+                );
+
+                return;
+
+            }
+
+
+            if (!data) {
+
+                console.log(
+                    "No settings found yet."
+                );
+
+                return;
+
+            }
+
+
+            if (settingsFields.phone) {
+
+                settingsFields.phone.value =
+                    data.phone || "";
+
+            }
+
+
+            if (settingsFields.email) {
+
+                settingsFields.email.value =
+                    data.email || "";
+
+            }
+
+
+            if (settingsFields.address) {
+
+                settingsFields.address.value =
+                    data.address || "";
+
+            }
+
+
+            if (settingsFields.weekdayOpen) {
+
+                settingsFields.weekdayOpen.value =
+                    data.weekday_open || "";
+
+            }
+
+
+            if (settingsFields.weekdayClose) {
+
+                settingsFields.weekdayClose.value =
+                    data.weekday_close || "";
+
+            }
+
+
+            if (settingsFields.weekendOpen) {
+
+                settingsFields.weekendOpen.value =
+                    data.weekend_open || "";
+
+            }
+
+
+            if (settingsFields.weekendClose) {
+
+                settingsFields.weekendClose.value =
+                    data.weekend_close || "";
+
+            }
+
+
+            if (settingsFields.instagram) {
+
+                settingsFields.instagram.value =
+                    data.instagram || "";
+
+            }
+
+
+            if (settingsFields.website) {
+
+                settingsFields.website.value =
+                    data.website || "";
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Unexpected settings loading error:",
+                error
+            );
+
+            showStatus(
+                "Could not load settings."
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       SAVE SETTINGS TO SUPABASE
+    ===================================================== */
+
+    const saveSettingsButton =
+        document.getElementById(
+            "save-settings-button"
+        );
+
+
+    if (saveSettingsButton) {
+
+        saveSettingsButton.addEventListener(
+            "click",
+            saveSettings
+        );
+
+    }
+
+
+    async function saveSettings() {
+
+        const settings = {
+
+            phone:
+                settingsFields.phone
+                    ? settingsFields.phone.value.trim()
+                    : "",
+
+            email:
+                settingsFields.email
+                    ? settingsFields.email.value.trim()
+                    : "",
+
+            address:
+                settingsFields.address
+                    ? settingsFields.address.value.trim()
+                    : "",
+
+            weekday_open:
+                settingsFields.weekdayOpen
+                    ? settingsFields.weekdayOpen.value.trim()
+                    : "",
+
+            weekday_close:
+                settingsFields.weekdayClose
+                    ? settingsFields.weekdayClose.value.trim()
+                    : "",
+
+            weekend_open:
+                settingsFields.weekendOpen
+                    ? settingsFields.weekendOpen.value.trim()
+                    : "",
+
+            weekend_close:
+                settingsFields.weekendClose
+                    ? settingsFields.weekendClose.value.trim()
+                    : "",
+
+            instagram:
+                settingsFields.instagram
+                    ? settingsFields.instagram.value.trim()
+                    : "",
+
+            website:
+                settingsFields.website
+                    ? settingsFields.website.value.trim()
+                    : ""
+
+        };
+
+
+        try {
+
+            showStatus(
+                "Saving settings..."
+            );
+
+
+            /* =========================
+               CHECK EXISTING SETTINGS
+            ========================== */
+
+            const {
+                data: existingSettings,
+                error: checkError
+            } =
+                await supabaseClient
+                    .from("settings")
+                    .select("id")
+                    .order("id", {
+                        ascending: true
+                    })
+                    .limit(1)
+                    .maybeSingle();
+
+
+            if (checkError) {
+
+                console.error(
+                    "Error checking settings:",
+                    checkError
+                );
+
+                showStatus(
+                    "Could not check settings."
+                );
+
+                return;
+
+            }
+
+
+            /* =========================
+               UPDATE EXISTING SETTINGS
+            ========================== */
+
+            if (existingSettings) {
+
+                const { error } =
+                    await supabaseClient
+                        .from("settings")
+                        .update(settings)
+                        .eq(
+                            "id",
+                            existingSettings.id
+                        );
+
+
+                if (error) {
+
+                    console.error(
+                        "Error updating settings:",
+                        error
+                    );
+
+                    showStatus(
+                        "Settings could not be updated."
+                    );
+
+                    return;
+
+                }
+
+            }
+
+
+            /* =========================
+               CREATE FIRST SETTINGS ROW
+            ========================== */
+
+            else {
+
+                const { error } =
+                    await supabaseClient
+                        .from("settings")
+                        .insert(settings);
+
+
+                if (error) {
+
+                    console.error(
+                        "Error saving settings:",
+                        error
+                    );
+
+                    showStatus(
+                        "Settings could not be saved."
+                    );
+
+                    return;
+
+                }
+
+            }
+
+
+            /* =========================
+               TRIGGER SYNC HOOK
+            ========================== */
+
+            await triggerSync(
+                "settings"
+            );
+
+
+            showStatus(
+                "Settings saved successfully!"
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Unexpected settings save error:",
+                error
+            );
+
+            showStatus(
+                "Something went wrong while saving settings."
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       ESCAPE HTML
+    ===================================================== */
+
+    function escapeHtml(value) {
+
+        return String(value)
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+
+    /* =====================================================
+       CUSTOM SELECTS
+    ===================================================== */
+
+    (function initLunaSelects() {
+
+        const nativeSelects =
+            document.querySelectorAll(
+                "select"
+            );
+
+
+        const dropdowns = [];
+
+
+        function closeAll(except) {
+
+            dropdowns.forEach(
+                dropdown => {
+
+                    if (
+                        dropdown !== except
+                    ) {
+
+                        dropdown.close();
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        function createLunaSelect(select) {
+
+            if (
+                select.dataset.lunaReady ===
+                "true"
+            ) {
+
+                return;
+
+            }
+
+
+            select.dataset.lunaReady =
+                "true";
+
+
+            const wrapper =
+                document.createElement(
+                    "div"
+                );
+
+
+            wrapper.className =
+                "luna-select";
+
+
+            select.parentNode.insertBefore(
+                wrapper,
+                select
+            );
+
+
+            wrapper.appendChild(
+                select
+            );
+
+
+            select.classList.add(
+                "luna-select-native"
+            );
+
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.type = "button";
+
+            button.className =
+                "luna-select-button";
+
+
+            button.setAttribute(
+                "aria-haspopup",
+                "listbox"
+            );
+
+
+            button.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+
+            const optionsBox =
+                document.createElement(
+                    "div"
+                );
+
+
+            optionsBox.className =
+                "luna-select-options";
+
+
+            optionsBox.setAttribute(
+                "role",
+                "listbox"
+            );
+
+
+            wrapper.appendChild(button);
+
+            wrapper.appendChild(
+                optionsBox
+            );
+
+
+            const dropdown = {
+
+                wrapper,
+
+                select,
+
+                button,
+
+                optionsBox,
+
+                close() {
+
+                    wrapper.classList.remove(
+                        "open"
+                    );
+
+                    button.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                }
+
+            };
+
+
+            dropdowns.push(
+                dropdown
+            );
+
+
+            function syncOptions() {
+
+                const currentValue =
+                    select.value;
+
+
+                optionsBox.innerHTML =
+                    "";
+
+
+                Array.from(
+                    select.options
+                ).forEach(option => {
+
+                    const optionButton =
+                        document.createElement(
+                            "button"
+                        );
+
+
+                    optionButton.type =
+                        "button";
+
+
+                    optionButton.className =
+                        "luna-select-option";
+
+
+                    optionButton.textContent =
+                        option.textContent.trim();
+
+
+                    optionButton.dataset.value =
+                        option.value;
+
+
+                    optionButton.setAttribute(
+                        "role",
+                        "option"
+                    );
+
+
+                    if (
+                        option.value ===
+                        currentValue
+                    ) {
+
+                        optionButton.classList.add(
+                            "selected"
+                        );
+
+                    }
+
+
+                    optionButton.addEventListener(
+                        "click",
+                        event => {
+
+                            event.stopPropagation();
+
+
+                            select.value =
+                                option.value;
+
+
+                            select.dispatchEvent(
+                                new Event(
+                                    "change",
+                                    {
+                                        bubbles: true
+                                    }
+                                )
+                            );
+
+
+                            syncButton();
+
+
+                            dropdown.close();
+
+                        }
+                    );
+
+
+                    optionsBox.appendChild(
+                        optionButton
+                    );
+
+                });
+
+
+                syncButton();
+
+            }
+
+
+            function syncButton() {
+
+                const selected =
+                    select.options[
+                        select.selectedIndex
+                    ];
+
+
+                if (!selected) {
+
+                    button.textContent =
+                        "Select";
+
+                    button.classList.add(
+                        "placeholder"
+                    );
+
+                    return;
+
+                }
+
+
+                button.textContent =
+                    selected.textContent.trim();
+
+
+                button.classList.toggle(
+                    "placeholder",
+                    !select.value
+                );
+
+
+                Array.from(
+                    optionsBox.querySelectorAll(
+                        ".luna-select-option"
+                    )
+                ).forEach(
+                    optionButton => {
+
+                        optionButton.classList.toggle(
+                            "selected",
+                            optionButton.dataset.value ===
+                            select.value
+                        );
+
+                    }
+                );
+
+            }
+
+
+            button.addEventListener(
+                "click",
+                event => {
+
+                    event.stopPropagation();
+
+
+                    const isOpen =
+                        wrapper.classList.contains(
+                            "open"
+                        );
+
+
+                    closeAll(dropdown);
+
+
+                    if (!isOpen) {
+
+                        wrapper.classList.add(
+                            "open"
+                        );
+
+
+                        button.setAttribute(
+                            "aria-expanded",
+                            "true"
+                        );
+
+                    }
+
+                }
+            );
+
+
+            select.addEventListener(
+                "change",
+                syncOptions
+            );
+
+
+            const observer =
+                new MutationObserver(
+                    syncOptions
+                );
+
+
+            observer.observe(
+                select,
+                {
+                    childList: true,
+                    subtree: true
+                }
+            );
+
+
+            syncOptions();
+
+        }
+
+
+        nativeSelects.forEach(
+            createLunaSelect
+        );
+
+
+        document.addEventListener(
+            "click",
+            () => closeAll(null)
+        );
+
+
+        document.addEventListener(
+            "keydown",
+            event => {
+
+                if (
+                    event.key === "Escape"
+                ) {
+
+                    closeAll(null);
+
+                }
+
+            }
+        );
+
+    })();
+
+
+
+    /* =====================================================
+       SIDEBAR ACTIVE STATE
+    ===================================================== */
+
+    const navItems =
+        document.querySelectorAll(
+            ".nav-item"
+        );
+
+
+    navItems.forEach(item => {
+
+        item.addEventListener(
+            "click",
+            () => {
+
+                navItems.forEach(
+                    nav =>
+                        nav.classList.remove(
+                            "active"
+                        )
+                );
+
+
+                item.classList.add(
+                    "active"
+                );
+
+            }
+        );
+
+    });
+
+
+
+    /* =====================================================
+       INITIALIZE ADMIN
+    ===================================================== */
+
+    async function initializeAdmin() {
+
+        await testSupabase();
+
+        await loadCategories();
+
+        await loadProducts();
+
+        await loadSettings();
+
+    }
+
+
+    (async function () {
+
+        const isAdmin = await protectAdminPanel();
+
+         if (!isAdmin) return;
+
+         await initializeAdmin();
+
+    })();
+
+
+</script>
+
+
+</body>
+
+</html>
+
+
+

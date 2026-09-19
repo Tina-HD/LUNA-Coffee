@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>About | LUNA Coffee</title>
+
+
+    <!-- =========================
+         GOOGLE FONTS
+    ========================== -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap"
+          rel="stylesheet">
+
+
+    <style>
+
+        /* =========================
+           GENERAL
+        ========================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+
+            background-color: #F7F3ED;
+
+            color: #25221F;
+
+            font-family: 'Inter', sans-serif;
+
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin-top: 0;
+
+            font-family: 'Playfair Display', serif;
+
+            overflow-wrap: break-word;
+        }
+
+        a {
+            color: inherit;
+
+            text-decoration: none;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================== */
+
+        .header {
+
+            height: 82px;
+
+            padding: 0 7%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            background-color: #F7F3ED;
+
+            border-bottom:
+                1px solid
+                rgba(112, 92, 70, 0.08);
+
+            position: relative;
+
+            z-index: 10;
+        }
+
+
+        .logo {
+
+            font-family:
+                'Playfair Display', serif;
+
+            font-size: 25px;
+
+            font-weight: 600;
+
+            color: #2D2722;
+
+            letter-spacing: -0.3px;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================
+           NAVIGATION
+        ========================== */
+
+        .navigation {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 32px;
+        }
+
+
+        .navigation a {
+
+            position: relative;
+
+            color: #514438;
+
+            font-size: 14px;
+
+            transition:
+                color 0.25s ease;
+        }
+
+
+        .navigation a::after {
+
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+
+            bottom: -7px;
+
+            width: 0;
+
+            height: 1px;
+
+            background-color: #8B6F47;
+
+            transition:
+                width 0.25s ease;
+        }
+
+
+        .navigation a:hover {
+
+            color: #8B6F47;
+        }
+
+
+        .navigation a:hover::after {
+
+            width: 100%;
+        }
+
+
+        /* =========================
+           ACTIVE NAVIGATION
+        ========================== */
+
+        .navigation a.active {
+
+            color: #8B6F47;
+        }
+
+
+        .navigation a.active::after {
+
+            width: 100%;
+        }
+
+
+        /* =========================
+           ADMIN LOGIN ICON
+        ========================== */
+
+        .admin-login {
+
+            width: 36px;
+
+            height: 36px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin-left: 2px;
+
+            color: #514438;
+
+            border:
+                1px solid
+                rgba(112, 92, 70, 0.14);
+
+            border-radius: 50%;
+
+            transition:
+                color 0.25s ease,
+                border-color 0.25s ease,
+                background-color 0.25s ease,
+                transform 0.25s ease;
+        }
+
+
+        .admin-login::after {
+
+            display: none;
+        }
+
+
+        .admin-login svg {
+
+            width: 17px;
+
+            height: 17px;
+
+            fill: none;
+
+            stroke: currentColor;
+
+            stroke-width: 1.8;
+
+            stroke-linecap: round;
+
+            stroke-linejoin: round;
+        }
+
+
+        .admin-login:hover {
+
+            color: #8B6F47;
+
+            border-color: #8B6F47;
+
+            background-color:
+                rgba(139, 111, 71, 0.05);
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        /* =========================
+           ABOUT PAGE
+        ========================== */
+
+        .about {
+
+            min-height:
+                calc(100svh - 82px);
+
+            padding: 115px 7%;
+
+            position: relative;
+
+            display: flex;
+
+            align-items: center;
+
+            overflow: hidden;
+
+            background-color: #ddd3c915;
+        }
+
+
+        .about::before {
+
+            content: "LUNA";
+
+            position: absolute;
+
+            right: 7%;
+
+            top: 80px;
+
+            color:
+                rgba(187, 161, 125, 0.068);
+
+            font-family:
+                'Playfair Display', serif;
+
+            font-size:
+                clamp(100px, 18vw, 260px);
+
+            line-height: 1;
+
+            pointer-events: none;
+
+            white-space: nowrap;
+        }
+
+
+        .section-content {
+
+            max-width: 700px;
+
+            position: relative;
+
+            z-index: 1;
+        }
+
+
+        .section-label {
+
+            margin-bottom: 20px;
+
+            color: #8B6F47;
+
+            font-size: 12px;
+
+            letter-spacing: 2px;
+
+            font-weight: 600;
+        }
+
+
+        .about h1 {
+
+            margin-bottom: 0;
+
+            color: #2D2722;
+
+            font-size:
+                clamp(42px, 5vw, 68px);
+
+            font-weight: 500;
+
+            line-height: 1.04;
+
+            letter-spacing: -1px;
+        }
+
+
+        .description {
+
+            max-width: 600px;
+
+            color: #625B53;
+
+            font-size: 16px;
+
+            line-height: 1.85;
+        }
+
+
+        .about .description:first-of-type {
+
+            margin-top: 35px;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================== */
+
+        .footer {
+
+            padding: 32px 7%;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            background-color: #F7F3ED;
+
+            border-top:
+                1px solid #DDD5C9;
+
+            color: #756D64;
+
+            font-size: 13px;
+        }
+
+
+        .footer p {
+
+            margin: 0;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 1100px) {
+
+            .about {
+
+                padding-left: 6%;
+
+                padding-right: 6%;
+            }
+
+        }
+
+
+        @media (max-width: 900px) {
+
+            .about {
+
+                min-height: auto;
+
+                padding:
+                    90px 6%;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .header {
+
+                height: auto;
+
+                padding:
+                    22px 6%;
+
+                flex-direction: column;
+
+                gap: 20px;
+            }
+
+
+            .navigation {
+
+                justify-content: center;
+
+                flex-wrap: wrap;
+
+                gap: 20px;
+            }
+
+
+            .about {
+
+                min-height: auto;
+
+                padding:
+                    80px 6%;
+            }
+
+
+            .about::before {
+
+                right: 5%;
+
+                top:
+                    clamp(20px, 6vw, 80px);
+
+                font-size:
+                    clamp(70px, 18vw, 260px);
+            }
+
+
+            .footer {
+
+                padding:
+                    28px 6%;
+
+                flex-direction: column;
+
+                gap: 10px;
+            }
+
+        }
+
+                @media (max-width: 500px) {
+
+            .header {
+
+                padding:
+                    20px 5%;
+            }
+
+
+            .logo {
+
+                font-size: 24px;
+            }
+
+
+            .navigation {
+
+                width: 100%;
+
+                gap:
+                    14px 18px;
+            }
+
+
+            .navigation a {
+
+                font-size: 13px;
+            }
+
+
+            .admin-login {
+
+                width: 34px;
+
+                height: 34px;
+
+                margin-left: 0;
+            }
+
+
+            .about {
+
+                padding:
+                    75px 7%;
+            }
+
+
+            .about h1 {
+
+                font-size: 44px;
+            }
+
+
+            .description {
+
+                font-size: 15px;
+
+                line-height: 1.8;
+            }
+
+        }
+
+
+        @media (max-width: 360px) {
+
+            .navigation {
+
+                gap: 12px;
+            }
+
+
+            .navigation a {
+
+                font-size: 12px;
+            }
+
+
+            .about {
+
+                padding-left: 6%;
+
+                padding-right: 6%;
+            }
+
+
+            .about h1 {
+
+                font-size: 39px;
+            }
+
+        }
+
+
+        /* =========================
+           REDUCED MOTION
+        ========================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            html {
+
+                scroll-behavior: auto;
+            }
+
+
+            *,
+            *::before,
+            *::after {
+
+                animation-duration:
+                    0.01ms !important;
+
+                animation-iteration-count:
+                    1 !important;
+
+                transition-duration:
+                    0.01ms !important;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <header class="header">
+
+        <a class="logo"
+           href="index.html">
+
+            LUNA Coffee
+
+        </a>
+
+
+        <nav class="navigation">
+
+            <a href="index.html">
+                Home
+            </a>
+
+
+            <a href="about.html"
+               class="active">
+
+                About
+
+            </a>
+
+
+            <a href="menu.html">
+                Menu
+            </a>
+
+
+            <a href="contact.html">
+                Contact
+            </a>
+
+
+            <a class="admin-login"
+               href="login.html"
+               aria-label="Staff login"
+               title="Staff login">
+
+                <svg viewBox="0 0 24 24"
+                     aria-hidden="true">
+
+                    <circle cx="12"
+                            cy="8"
+                            r="3.5">
+                    </circle>
+
+                    <path d="M4.5 20c.8-3.7 3.5-5.5 7.5-5.5s6.7 1.8 7.5 5.5">
+                    </path>
+
+                </svg>
+
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main>
+
+
+        <!-- =========================
+             ABOUT
+        ========================== -->
+
+        <section class="about"
+                 id="about">
+
+
+            <div class="section-content">
+
+
+                <p class="section-label">
+
+                    ABOUT US
+
+                </p>
+
+
+                <h1>
+
+                    A little place<br>
+                    to slow down.
+
+                </h1>
+
+
+                <p class="description">
+
+                    LUNA Coffee is a small neighborhood café
+                    built around good coffee, warm conversations,
+                    and simple moments.
+
+                </p>
+
+
+                <p class="description">
+
+                    We serve specialty coffee, fresh pastries,
+                    and homemade cakes every day — because
+                    sometimes the best part of the day is simply
+                    having somewhere beautiful to pause.
+
+                </p>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer class="footer">
+
+
+        <p>
+
+            © 2026 LUNA Coffee
+
+        </p>
+
+
+        <p>
+
+            Slow mornings. Good coffee.
+
+        </p>
+
+
+    </footer>
+
+
+</body>
+
+</html>
