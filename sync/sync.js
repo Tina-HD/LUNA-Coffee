@@ -386,15 +386,20 @@ async function autoSync() {
    START AUTO SYNC 
 ========================================= */ 
  
-console.log("🔄 Auto Sync is running..."); 
-console.log("⏱ Checking Supabase every 5 seconds..."); 
- 
- 
-autoSync(); 
- 
- 
-setInterval(() => { 
- 
-    autoSync(); 
- 
-}, 5000); 
+if (process.env.GITHUB_ACTIONS === "true") {
+
+    // GitHub Actions: run once and finish
+    await runSync();
+
+} else {
+
+    // Local computer: keep auto-syncing every 5 seconds
+    console.log("🔄 Auto Sync is running...");
+    console.log("⏱ Checking Supabase every 5 seconds...");
+
+    autoSync();
+
+    setInterval(() => {
+        autoSync();
+    }, 5000);
+}
