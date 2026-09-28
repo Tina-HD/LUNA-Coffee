@@ -2261,70 +2261,159 @@ async function protectAdminPanel() {
           ↓
        Public website
     ===================================================== */
+    
+const syncHooks = {
 
-    const syncHooks = {
+    async products() {
 
-        async products() {
-
-            console.log(
-                "[SYNC] Products changed. Sync hook ready."
-            );
-
-        },
-
-
-        async categories() {
-
-            console.log(
-                "[SYNC] Categories changed. Sync hook ready."
-            );
-
-        },
-
-
-        async menuPreview() {
-
-            console.log(
-                "[SYNC] Menu preview changed. Sync hook ready."
-            );
-
-        },
-
-
-        async settings() {
-
-            console.log(
-                "[SYNC] Settings changed. Sync hook ready."
-            );
-
-        }
-
-    };
-
-
-    async function triggerSync(type) {
-
-        try {
-
-            if (
-                syncHooks[type] &&
-                typeof syncHooks[type] === "function"
-            ) {
-
-                await syncHooks[type]();
-
+        const response = await fetch(
+            "https://xrhdbxsawcdwrvcguojy.supabase.co/functions/v1/dynamic-task",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    type: "products"
+                })
             }
+        );
 
-        } catch (error) {
+        const result = await response.json();
 
-            console.error(
-                `[SYNC] ${type} sync hook failed:`,
-                error
+        if (!response.ok) {
+            throw new Error(
+                result.error || "Products sync failed"
             );
-
         }
+
+        console.log(
+            "[SYNC] Products sync triggered successfully.",
+            result
+        );
+
+    },
+
+
+    async categories() {
+
+        const response = await fetch(
+            "https://xrhdbxsawcdwrvcguojy.supabase.co/functions/v1/dynamic-task",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    type: "categories"
+                })
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                result.error || "Categories sync failed"
+            );
+        }
+
+        console.log(
+            "[SYNC] Categories sync triggered successfully.",
+            result
+        );
+
+    },
+
+
+    async menuPreview() {
+
+        const response = await fetch(
+            "https://xrhdbxsawcdwrvcguojy.supabase.co/functions/v1/dynamic-task",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    type: "menuPreview"
+                })
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                result.error || "Menu preview sync failed"
+            );
+        }
+
+        console.log(
+            "[SYNC] Menu preview sync triggered successfully.",
+            result
+        );
+
+    },
+
+
+    async settings() {
+
+        const response = await fetch(
+            "https://xrhdbxsawcdwrvcguojy.supabase.co/functions/v1/dynamic-task",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    type: "settings"
+                })
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                result.error || "Settings sync failed"
+            );
+        }
+
+        console.log(
+            "[SYNC] Settings sync triggered successfully.",
+            result
+        );
 
     }
+
+};
+
+
+async function triggerSync(type) {
+
+    try {
+
+        if (
+            syncHooks[type] &&
+            typeof syncHooks[type] === "function"
+        ) {
+
+            await syncHooks[type]();
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            `[SYNC] ${type} sync hook failed:`,
+            error
+        );
+
+    }
+
+}
+
 
 
 
