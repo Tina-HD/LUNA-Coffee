@@ -18,5 +18,10 @@
     "id": 4,
     "name": "Cold Drinks",
     "slug": "cold-drinks"
+  },
+  {
+    "id": 23,
+    "name": "Chocolate",
+    "slug": "chocolate"
   }
 ]
